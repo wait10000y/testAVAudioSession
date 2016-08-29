@@ -21,13 +21,14 @@
 		E767AA521B4A5E92002EC896 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E767AA501B4A5E92002EC896 /* InfoPlist.strings */; };
 		E767AA541B4A5E92002EC896 /* testAVAudioSessionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E767AA531B4A5E92002EC896 /* testAVAudioSessionTests.m */; };
 		E767AA671B4A653F002EC896 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E767AA661B4A653F002EC896 /* AVFoundation.framework */; };
+		E7B23A431D7413E4001F9EA9 /* WS_MediaCaptureManagerUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = E7B23A421D7413E4001F9EA9 /* WS_MediaCaptureManagerUtil.m */; };
 		E7C03AA41B6B612200124195 /* TPCircularBuffer+AudioBufferList.c in Sources */ = {isa = PBXBuildFile; fileRef = E7C03A8E1B6B612200124195 /* TPCircularBuffer+AudioBufferList.c */; };
 		E7C03AA51B6B612200124195 /* TPCircularBuffer.c in Sources */ = {isa = PBXBuildFile; fileRef = E7C03A901B6B612200124195 /* TPCircularBuffer.c */; };
 		E7C03AA61B6B612200124195 /* AudioManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C03A941B6B612200124195 /* AudioManager.m */; };
 		E7C03AA81B6B612200124195 /* AudioRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C03A981B6B612200124195 /* AudioRecorder.m */; };
 		E7C03AA91B6B612200124195 /* AudioRecorderOne.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C03A9A1B6B612200124195 /* AudioRecorderOne.m */; };
 		E7C03AAA1B6B612200124195 /* AudioRecorderTwo.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C03A9C1B6B612200124195 /* AudioRecorderTwo.m */; };
-		E7C03AAB1B6B612200124195 /* AVCaptureManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C03A9E1B6B612200124195 /* AVCaptureManager.m */; };
+		E7C03AAB1B6B612200124195 /* WS_MediaCaptureManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C03A9E1B6B612200124195 /* WS_MediaCaptureManager.m */; };
 		E7C03AAC1B6B612200124195 /* RemoteIOPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C03AA01B6B612200124195 /* RemoteIOPlayer.m */; };
 		E7C03AAD1B6B612200124195 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C03AA31B6B612200124195 /* ViewController.m */; };
 /* End PBXBuildFile section */
@@ -62,6 +63,8 @@
 		E767AA511B4A5E92002EC896 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		E767AA531B4A5E92002EC896 /* testAVAudioSessionTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = testAVAudioSessionTests.m; sourceTree = "<group>"; };
 		E767AA661B4A653F002EC896 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		E7B23A411D7413E4001F9EA9 /* WS_MediaCaptureManagerUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WS_MediaCaptureManagerUtil.h; sourceTree = "<group>"; };
+		E7B23A421D7413E4001F9EA9 /* WS_MediaCaptureManagerUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WS_MediaCaptureManagerUtil.m; sourceTree = "<group>"; };
 		E7C03A8E1B6B612200124195 /* TPCircularBuffer+AudioBufferList.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "TPCircularBuffer+AudioBufferList.c"; sourceTree = "<group>"; };
 		E7C03A8F1B6B612200124195 /* TPCircularBuffer+AudioBufferList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TPCircularBuffer+AudioBufferList.h"; sourceTree = "<group>"; };
 		E7C03A901B6B612200124195 /* TPCircularBuffer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = TPCircularBuffer.c; sourceTree = "<group>"; };
@@ -74,8 +77,8 @@
 		E7C03A9A1B6B612200124195 /* AudioRecorderOne.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioRecorderOne.m; sourceTree = "<group>"; };
 		E7C03A9B1B6B612200124195 /* AudioRecorderTwo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioRecorderTwo.h; sourceTree = "<group>"; };
 		E7C03A9C1B6B612200124195 /* AudioRecorderTwo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioRecorderTwo.m; sourceTree = "<group>"; };
-		E7C03A9D1B6B612200124195 /* AVCaptureManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVCaptureManager.h; sourceTree = "<group>"; };
-		E7C03A9E1B6B612200124195 /* AVCaptureManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVCaptureManager.m; sourceTree = "<group>"; };
+		E7C03A9D1B6B612200124195 /* WS_MediaCaptureManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WS_MediaCaptureManager.h; sourceTree = "<group>"; };
+		E7C03A9E1B6B612200124195 /* WS_MediaCaptureManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WS_MediaCaptureManager.m; sourceTree = "<group>"; };
 		E7C03A9F1B6B612200124195 /* RemoteIOPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RemoteIOPlayer.h; sourceTree = "<group>"; };
 		E7C03AA01B6B612200124195 /* RemoteIOPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RemoteIOPlayer.m; sourceTree = "<group>"; };
 		E7C03AA21B6B612200124195 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
@@ -213,8 +216,10 @@
 				E7C03A9A1B6B612200124195 /* AudioRecorderOne.m */,
 				E7C03A9B1B6B612200124195 /* AudioRecorderTwo.h */,
 				E7C03A9C1B6B612200124195 /* AudioRecorderTwo.m */,
-				E7C03A9D1B6B612200124195 /* AVCaptureManager.h */,
-				E7C03A9E1B6B612200124195 /* AVCaptureManager.m */,
+				E7C03A9D1B6B612200124195 /* WS_MediaCaptureManager.h */,
+				E7C03A9E1B6B612200124195 /* WS_MediaCaptureManager.m */,
+				E7B23A411D7413E4001F9EA9 /* WS_MediaCaptureManagerUtil.h */,
+				E7B23A421D7413E4001F9EA9 /* WS_MediaCaptureManagerUtil.m */,
 				E7C03A9F1B6B612200124195 /* RemoteIOPlayer.h */,
 				E7C03AA01B6B612200124195 /* RemoteIOPlayer.m */,
 			);
@@ -339,8 +344,9 @@
 				E7C03AAA1B6B612200124195 /* AudioRecorderTwo.m in Sources */,
 				E7C03AA61B6B612200124195 /* AudioManager.m in Sources */,
 				E7C03AA41B6B612200124195 /* TPCircularBuffer+AudioBufferList.c in Sources */,
+				E7B23A431D7413E4001F9EA9 /* WS_MediaCaptureManagerUtil.m in Sources */,
 				E7C03AA91B6B612200124195 /* AudioRecorderOne.m in Sources */,
-				E7C03AAB1B6B612200124195 /* AVCaptureManager.m in Sources */,
+				E7C03AAB1B6B612200124195 /* WS_MediaCaptureManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -29,7 +29,7 @@
   [avSession setPreferredIOBufferDuration:0.1f error:nil];
   [avSession setPreferredOutputNumberOfChannels:1 error:nil];
   // 8000 - 48000
-  [avSession setPreferredSampleRate:22050 error:nil];
+  [avSession setPreferredSampleRate:44100.0 error:nil];
   
   // 增益 0 - 1.0;
   if (avSession.inputGainSettable) {

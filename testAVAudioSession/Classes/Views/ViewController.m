@@ -7,15 +7,15 @@
 //
 
 #import "ViewController.h"
-#import "AVCaptureManager.h"
+#import "WS_MediaCaptureManager.h"
 
 //#import "AudioPlayer.h"
 //#import "AudioManager.h"
 //#import "AudioRecorderTwo.h"
 
-@interface ViewController ()<AVCaptureManagerDelegate>
+@interface ViewController ()<WS_MediaCaptureManagerDelegate>
 
-@property (nonatomic) AVCaptureManager *recorder;
+@property (nonatomic) WS_MediaCaptureManager *recorder;
 //@property BOOL isCreatedSession;
 
 //@property (nonatomic) AudioPlayer *audioPlayer;
@@ -46,10 +46,9 @@
 -(BOOL)createCaptureSession
 {
   if (!self.recorder) {
-    self.recorder = [[AVCaptureManager alloc] init];
+    self.recorder = [[WS_MediaCaptureManager alloc] init];
     self.recorder.delegateVideo = self;
     self.recorder.delegateAudio = self;
-    self.recorder.videoOrientation = 1;
   }
   return [self.recorder createRecordSession];
 }
@@ -68,30 +67,35 @@
  3 右旋90度
  4 左旋90
  1 正
+ 
+ AVCaptureVideoOrientationPortrait           = 1,
+ AVCaptureVideoOrientationPortraitUpsideDown = 2,
+ AVCaptureVideoOrientationLandscapeRight     = 3,
+ AVCaptureVideoOrientationLandscapeLeft      = 4,
  */
 -(void)toggleVideoOrientation
 {
   NSInteger oldOri = self.recorder.videoOrientation;
-  NSInteger newOri = 1;
+  NSInteger newOri = AVCaptureVideoOrientationPortrait;
   switch (oldOri) {
-    case 1:
-      newOri = 4;
+    case AVCaptureVideoOrientationPortrait:
+      newOri = AVCaptureVideoOrientationLandscapeLeft;
       break;
-    case 2:
-      newOri = 3;
+    case AVCaptureVideoOrientationPortraitUpsideDown:
+      newOri = AVCaptureVideoOrientationLandscapeRight;
       break;
-    case 3:
-      newOri = 1;
+    case AVCaptureVideoOrientationLandscapeRight:
+      newOri = AVCaptureVideoOrientationPortrait;
       break;
-    case 4:
-      newOri = 2;
+    case AVCaptureVideoOrientationLandscapeLeft:
+      newOri = AVCaptureVideoOrientationPortraitUpsideDown;
       break;
       
     default:
       break;
   }
   if (newOri != oldOri) {
-    self.recorder.videoOrientation = newOri;
+    [self.recorder changeVideoOrientation:newOri];
   }
   
 }
@@ -123,17 +127,19 @@
       
     case 101: // 切换镜头
     {
-      [self.recorder toggleCamaraInput];
+      [self.recorder changeCamaraInput:(self.recorder.videoDevicePosition ==AVCaptureDevicePositionFront)?AVCaptureDevicePositionBack:AVCaptureDevicePositionFront];
       
     } break;
       
     case 111: // start video
     {
       if (!self.recorder) { [self createCaptureSession]; }
-      [self.recorder startRecordVideoWithPreview:self.viewPreview withData:nil isNew:NO];
-//      if (self.recorder.previewLayer) {
-//        [self.viewPreview.layer addSublayer:self.recorder.previewLayer];
-//      }
+      [self.recorder startRecordVideo:nil];
+      AVCaptureVideoPreviewLayer *previewLayer = self.recorder.previewLayer;
+      if (previewLayer) {
+        previewLayer.frame = self.viewPreview.layer.bounds;
+        [self.viewPreview.layer addSublayer:previewLayer];
+      }
     } break;
     case 110: // stop video
     {
@@ -158,7 +164,7 @@
 //      [self.audioPlayer startAudioPlayer];
 
       if (!self.recorder) { [self createCaptureSession]; }
-      [self.recorder startRecordAudio:nil isNew:NO];
+      [self.recorder startRecordAudio:nil];
     } break;
     case 120: // stop audio
     {
