@@ -8,6 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+#import "WS_VideoPlayer.h"
+
+
+
+
 @interface ViewController : UIViewController
 
 
@@ -17,5 +22,7 @@
 @property (weak, nonatomic) IBOutlet UIView *viewPreview;
 
 @property (weak, nonatomic) IBOutlet UIImageView *imgShow;
+
+@property (weak, nonatomic) IBOutlet UIView *videoShow;
 
 @end

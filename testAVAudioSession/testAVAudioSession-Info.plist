@@ -4,12 +4,23 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
-	<key>CFBundleDisplayName</key>
-	<string>测试录像功能</string>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.chelady.test.${PRODUCT_NAME:rfc1034identifier}</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>${PRODUCT_NAME}需要您的同意才能读取媒体资料库</string>
+    <key>NSCameraUsageDescription</key>
+    <string>${PRODUCT_NAME}需要您同意才能使用摄像头</string>
+    
+    <key>NSContactsUsageDescription</key>
+    <string>${PRODUCT_NAME}需要您同意才能使用通讯录</string>
+    
+    <key>NSMicrophoneUsageDescription</key>
+    <string>${PRODUCT_NAME}需要您同意才能使用话筒</string>
+    
+	<key>CFBundleDisplayName</key>
+	<string>testAVF</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>

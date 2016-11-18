@@ -48,6 +48,7 @@
 @interface WS_MediaCaptureManagerVideoProfile : NSObject
 @property (nonatomic) NSInteger videoType; // 视频输出类型:image
 @property (nonatomic) CMTime videoFrameDuration; // 帧率
+@property (nonatomic) OSType videoFormat; // 
 @property (nonatomic) AVCaptureVideoOrientation videoOrientation; // 设置输出视频默认方向
 @property (nonatomic) AVCaptureDevicePosition videoDevicePosition; // 摄像头默认值 AVCaptureDevicePositionFront
 
@@ -73,6 +74,9 @@
 -(void)audioRecordPartData:(id)theData withDesc:(CMFormatDescriptionRef)theDesc;
 // 视频回调(UIImage类型)
 -(void)videoRecordPartData:(id)theData;
+
+  // 全类型的调用: 1:video,0:audio
+-(void)managerRecordSampleBuffer:(CMSampleBufferRef *)theBufferRef mediaType:(int)theType;
 
 @end
 

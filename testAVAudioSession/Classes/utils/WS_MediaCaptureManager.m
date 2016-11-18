@@ -7,6 +7,7 @@
 //
 
 #import "WS_MediaCaptureManager.h"
+#import <VideoToolbox/VideoToolbox.h>
 
 #define kBufferLength 2048
 
@@ -17,11 +18,12 @@
   if (self) {
     _videoType          = 1;
     _videoFrameDuration = CMTimeMake(1, 20);
+      _videoFormat = kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange; // kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange; // kCVPixelFormatType_32BGRA
     _videoOrientation   = AVCaptureVideoOrientationPortrait;
     
     _videoDevicePosition = AVCaptureDevicePositionFront;
     _videoSize = CGSizeZero;
-    _sessionPreset = AVCaptureSessionPresetMedium;
+      _sessionPreset = AVCaptureSessionPreset352x288; // AVCaptureSessionPresetMedium;
     
   }
   return self;
@@ -194,7 +196,7 @@
   //                            [NSNumber numberWithInt: videoSetings.distHeight], (id)kCVPixelBufferHeightKey,nil];
 
   NSMutableDictionary *settings = [[NSMutableDictionary alloc]initWithCapacity:4];
-  [settings setObject:[NSNumber numberWithInt:kCVPixelFormatType_32BGRA] forKey:(id)kCVPixelBufferPixelFormatTypeKey];
+  [settings setObject:[NSNumber numberWithInt:_videoProfile.videoFormat] forKey:(id)kCVPixelBufferPixelFormatTypeKey];
   
   if (CGSizeEqualToSize(_videoProfile.videoSize, CGSizeZero)) {
     NSString *sPreset = _videoProfile.sessionPreset?:AVCaptureSessionPresetLow;
@@ -228,6 +230,7 @@
   
   //视频输入
   return [AVCaptureDeviceInput deviceInputWithDevice:videoDevice error:nil];
+    
 }
 
 -(AVCaptureAudioDataOutput*)createAudioOutput
@@ -264,14 +267,33 @@
 {
   NSLog(@"---- WS_MediaCaptureManager getCameraDeviceWithPosition:%ld ----",(long)position);
   NSArray *cameras= [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo];
+    AVCaptureDevice *videoDevice;
   for (AVCaptureDevice *camera in cameras)
   {
     if ([camera position]==position)
     {
-      return camera;
+        videoDevice = camera;break;
     }
   }
-  return nil;
+    if (!videoDevice) {
+        videoDevice = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+    }
+        // device support
+    NSLog(@"--- camera device[%ld] activeFormat:%@ ",(long)position,videoDevice.activeFormat);
+    
+    for (AVCaptureDeviceFormat *activeFormat in videoDevice.formats) {
+        NSLog(@"device support format: %@ ",activeFormat);
+    }
+    
+//    AVCaptureDeviceFormat *activeFormat = videoDevice.activeFormat;
+//    NSLog(@"device active format: %@ ",activeFormat);
+////    AVFrameRateRange
+//    for (AVFrameRateRange *frRange in activeFormat.videoSupportedFrameRateRanges) {
+//        NSLog(@"device active format AVFrameRateRange: frameRate: (max)%lf , (max)%lf , duration:(min)%f , (max)%f ",frRange.minFrameRate,frRange.maxFrameRate,frRange.minFrameDuration,frRange.maxFrameDuration);
+//    }
+    
+    
+  return videoDevice;
 }
 
 // ==================== api =====================
@@ -447,6 +469,15 @@
   if (_videoInput && [_session canAddInput:_videoInput])
   {
     [_session addInput:_videoInput];
+      
+      NSString *preset = _videoProfile.sessionPreset?:AVCaptureSessionPresetLow;
+      if ([_session canSetSessionPreset:preset]) {
+          if ([_videoInput.device supportsAVCaptureSessionPreset:preset]) {
+              _session.sessionPreset = preset;
+          }else{
+              NSLog(@"do not support the preset:%@",preset);
+          }
+      }
   }else{
     NSLog(@"---- session addVideoInput error ----");
     result = 1;
@@ -548,7 +579,9 @@
     //改变会话的配置前一定要先开启配置，配置完成后提交配置改变
     [self.session beginConfiguration];
     //移除原有输入对象
-    [self.session removeInput:self.videoInput];
+      if (self.videoInput) {
+          [self.session removeInput:self.videoInput];
+      }
     //添加新的输入对象
     if ([self.session canAddInput:toChangeDeviceInput])
     {
@@ -610,14 +643,23 @@
 - (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection
 {
   NSLog(@"----- captureOutput[%@] buffer[%@] ------",NSStringFromClass([captureOutput class]),[captureOutput isKindOfClass:[AVCaptureVideoDataOutput class]]?@"video":@"audio");
-//    __weak typeof(self) weakSelf = self;
+
+  if ([self.delegateVideo respondsToSelector:@selector(managerRecordSampleBuffer:mediaType:)]) {
+    @autoreleasepool {
+      [self.delegateVideo managerRecordSampleBuffer:&sampleBuffer mediaType:(captureOutput==self.videoOutput)];
+    }
+  }
+  
+    //    __weak typeof(self) weakSelf = self;
 //  NSLog(@"---- isMainThread:%d ----",[NSThread isMainThread]); // no
     if (captureOutput == self.videoOutput) { // video
 
+        [self descSampleBuffer:&sampleBuffer];
+        
       if ([self.delegateVideo respondsToSelector:@selector(videoRecordPartData:)]) {
         // Create a UIImage from the sample buffer data
         @autoreleasepool {
-          UIImage *image = [self imageFromSampleBuffer:&sampleBuffer];
+          UIImage *image = [self imageFromSampleBuffer:&sampleBuffer videoFormat:_videoProfile.videoFormat];
           [self.delegateVideo videoRecordPartData:image];
         }
       }
@@ -694,7 +736,7 @@
 
 
 // Create a UIImage from sample buffer data
-- (UIImage *) imageFromSampleBuffer:(CMSampleBufferRef *) sampleBuffer
+- (UIImage *) imageFromRGBSampleBuffer:(CMSampleBufferRef *) sampleBuffer
 {
   UIImage *image;
   // Get a CMSampleBuffer's Core Video image buffer for the media data
@@ -735,7 +777,213 @@
   return (image);
 }
 
+- (UIImage *) imageFromSampleBuffer:(CMSampleBufferRef *) sampleBuffer videoFormat:(OSType)videoFormat
+{
+    CVImageBufferRef imageBuffer = CMSampleBufferGetImageBuffer(*sampleBuffer);
+        // Lock the base address of the pixel buffer
+    CVPixelBufferLockBaseAddress(imageBuffer, 0);
+    NSDictionary *opt =  @{ (id)kCVPixelBufferPixelFormatTypeKey : @(videoFormat) };
+    CIImage *image = [[CIImage alloc]   initWithCVPixelBuffer:imageBuffer options:opt];
+    CVPixelBufferUnlockBaseAddress(imageBuffer,0);
+    return [UIImage imageWithCIImage:image scale:[UIScreen mainScreen].scale orientation:UIImageOrientationUp];
 
+}
+
+
+/*
+ 
+ kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange -> planar buffer
+ extensions = {
+ CVBytesPerRow = 2904;
+ CVImageBufferColorPrimaries = "ITU_R_709_2";
+ CVImageBufferTransferFunction = "ITU_R_709_2";
+ CVImageBufferYCbCrMatrix = "ITU_R_709_2";
+ Version = 2;
+ }
+ 在我有限的视频基础中，ITU_R_709_2是HD视频的方案，一般用于YUV422，YUV至RGB的转换矩阵和SD视频（一般是ITU_R_601_4）并不相同。
+ 
+ 
+ */
+-(void)descSampleBuffer:(CMSampleBufferRef *) sampleBuffer
+{
+    CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(*sampleBuffer);
+    
+    // 打印 视频格式规范类型描述
+    if (CVPixelBufferIsPlanar(pixelBuffer)) {
+        size_t pSize0 = CVPixelBufferGetBytesPerRowOfPlane(pixelBuffer, 0);
+        size_t pSize1 = CVPixelBufferGetBytesPerRowOfPlane(pixelBuffer, 1);
+        size_t pSize = CVPixelBufferGetBytesPerRow(pixelBuffer);
+        size_t pWidth = CVPixelBufferGetWidth(pixelBuffer);
+        size_t pHeight = CVPixelBufferGetHeight(pixelBuffer);
+        
+        size_t pWidth0 = CVPixelBufferGetWidthOfPlane(pixelBuffer, 0);
+        size_t pHeight0 = CVPixelBufferGetHeightOfPlane(pixelBuffer, 0);
+        
+        size_t pWidth1 = CVPixelBufferGetWidthOfPlane(pixelBuffer, 1);
+        size_t pHeight1 = CVPixelBufferGetHeightOfPlane(pixelBuffer, 1);
+        
+        NSLog(@"descSampleBuffer: kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange -> planar buffer bytesPerRow:[buff(%zu,%zu)]%zu , [plane0(%zu,%zu)]%zu , [plane1(%zu,%zu)]%zu ,",
+              pWidth,pHeight,pSize,
+              pWidth0,pHeight0,pSize0,
+              pWidth1,pHeight1,pSize1
+              );
+    }
+    CMVideoFormatDescriptionRef desc = NULL;
+    CMVideoFormatDescriptionCreateForImageBuffer(NULL, pixelBuffer, &desc);
+    CFDictionaryRef extensions = CMFormatDescriptionGetExtensions(desc);
+    NSLog(@"descSampleBuffer: extensions = %@", extensions);
+    
+    
+    // 打印 有无扩展像素
+    size_t  extraColumnsOnLeft;
+    size_t extraColumnsOnRight;
+    size_t extraRowsOnTop;
+    size_t extraRowsOnBottom;
+    CVPixelBufferGetExtendedPixels(pixelBuffer,
+                                   &extraColumnsOnLeft,
+                                   &extraColumnsOnRight,
+                                   &extraRowsOnTop,
+                                   &extraRowsOnBottom);
+    NSLog(@"descSampleBuffer: extra (left, right, top, bottom) = (%ld, %ld, %ld, %ld)",
+          extraColumnsOnLeft,
+          extraColumnsOnRight,
+          extraRowsOnTop,
+          extraRowsOnBottom);
+    
+}
+
+
+/*
+ 
+ kCMVideoCodecType_H264改成kCMVideoCodecType_HEVC，在iOS 9.2.1 iPhone 6p、iPhone 6sp执行均返回错误-12908，kVTCouldNotFindVideoEncoderErr，找不到编码器。看来iOS 9.2并不开放HEVC编码器。
+ 
+ 文／熊皮皮（简书作者）
+ 原文链接：http://www.jianshu.com/p/9febe519732a
+ 著作权归作者所有，转载请联系作者获得授权，并标注“简书作者”。
+ 
+ */
+-(void)encodeForH264:(CMSampleBufferRef *) sampleBuffer
+{
+    
+    CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(*sampleBuffer);
+    
+        // 获取摄像头输出图像的宽高
+    size_t width = CVPixelBufferGetWidth(pixelBuffer);
+    size_t height = CVPixelBufferGetHeight(pixelBuffer);
+    
+    static VTCompressionSessionRef compressionSession;
+    OSStatus status =  VTCompressionSessionCreate(NULL,
+                                                  (int32_t)width, (int32_t)height,
+                                                  kCMVideoCodecType_H264,
+                                                  NULL,
+                                                  NULL,
+                                                  NULL, &compressionOutputCallback, NULL, &compressionSession);
+    
+    if (status == noErr) {
+        
+        
+    }else{
+            // show err
+        
+    }
+    
+    
+    
+}
+
+
+/*
+ 
+ extensions = {
+ FormatName = "H.264";
+ SampleDescriptionExtensionAtoms =     {
+ avcC = <014d0028 ffe1000b 274d0028 ab603c01 13f2a001 000428ee 3c30>;
+ };
+ }
+ samples count = 1
+ 采样数据为1，并不意味着slice数量为1。目前没找到输出多slice码流（多个I、P Slice）的参数配置。sampleBuffer的详细信息示例如下：
+ 
+ 
+CMSampleBuffer 0x126e9fd80 retainCount: 1 allocator: 0x1a227cb68
+invalid = NO
+dataReady = YES
+makeDataReadyCallback = 0x0
+makeDataReadyRefcon = 0x0
+formatDescription = <CMVideoFormatDescription 0x126e9fd50 [0x1a227cb68]> {
+mediaType:'vide'
+mediaSubType:'avc1'
+mediaSpecific: {
+codecType: 'avc1'        dimensions: 1920 x 1080
+}
+extensions: {<CFBasicHash 0x126e9eae0 [0x1a227cb68]>{type = immutable dict, count = 2,
+    entries =>
+    0 : <CFString 0x19dd523e0 [0x1a227cb68]>{contents = "SampleDescriptionExtensionAtoms"} = <CFBasicHash 0x126e9e090 [0x1a227cb68]>{type = immutable dict, count = 1,
+        entries =>
+        2 : <CFString 0x19dd57c20 [0x1a227cb68]>{contents = "avcC"} = <CFData 0x126e9e1b0 [0x1a227cb68]>{length = 26, capacity = 26, bytes = 0x014d0028ffe1000b274d0028ab603c01 ... a001000428ee3c30}
+    }
+    
+    2 : <CFString 0x19dd52440 [0x1a227cb68]>{contents = "FormatName"} = H.264
+}
+}
+}
+sbufToTrackReadiness = 0x0
+numSamples = 1
+sampleTimingArray[1] = {
+    {PTS = {196709596065916/1000000000 = 196709.596}, DTS = {INVALID}, duration = {INVALID}},
+}
+sampleSizeArray[1] = {
+    sampleSize = 5707,
+}
+sampleAttachmentsArray[1] = {
+    sample 0:
+    DependsOnOthers = false
+}
+dataBuffer = 0x126e9fc50
+ 
+ 
+ avcC放入CFDictionaryRef然后传递至CMVideoFormatDescriptionCreate，创建视频格式描述，接着创建解码会话，开始解码。
+ 
+ 由此也可发现，VideoToolbox编码输出为avcC格式，而且VideoToolbox也只支持avcC格式的H.264。如果从网络中得到Annex-B格式的H.264数据（一般称作H.264裸流或Elementary Stream），用CMVideoFormatDescriptionCreateFromH264ParameterSets创建视频格式描述更方便，同时解码时需要将Annex-B转换成avcC，这也是WWDC2014 513 "direct access to media encoding and decoding"中说VideoToolbox只支持MP4容器装载的H.264数据的原因，就我所知，当写入MP4时，Annex-B使用的起始码（Start Code）会被写成长度（Length）。这就是VideoToolBox硬解最容易出问题的点
+ 
+ */
+
+
+static void compressionOutputCallback(void * CM_NULLABLE outputCallbackRefCon,
+                                      void * CM_NULLABLE sourceFrameRefCon,
+                                      OSStatus status,
+                                      VTEncodeInfoFlags infoFlags,
+                                      CM_NULLABLE CMSampleBufferRef sampleBuffer ) {
+    if (status != noErr) {
+        NSLog(@"%s with status(%d)", __FUNCTION__, status);
+        return;
+    }
+    if (infoFlags == kVTEncodeInfo_FrameDropped) {
+        NSLog(@"%s with frame dropped.", __FUNCTION__);
+        return;
+    }
+    
+    /* ------ 辅助调试 ------ */
+    CMFormatDescriptionRef fmtDesc = CMSampleBufferGetFormatDescription(sampleBuffer);
+    CFDictionaryRef extensions = CMFormatDescriptionGetExtensions(fmtDesc);
+    NSLog(@"extensions = %@", extensions);
+    CMItemCount count = CMSampleBufferGetNumSamples(sampleBuffer);
+    NSLog(@"samples count = %ld", count);
+    /* ====== 辅助调试 ====== */
+    
+        // 推流或写入文件
+    
+}
+
+
+-(NSData*)getDataFromBuff:(CMSampleBufferRef *)sampleBuffer
+{
+  CMBlockBufferRef blockBufferRef = CMSampleBufferGetDataBuffer(*sampleBuffer);
+  size_t length = CMBlockBufferGetDataLength(blockBufferRef);
+  Byte buffer[length];
+  CMBlockBufferCopyDataBytes(blockBufferRef, 0, length, buffer);
+  NSData *data = [NSData dataWithBytes:buffer length:length];
+  return data;
+}
 
 
 //-(void)dealloc

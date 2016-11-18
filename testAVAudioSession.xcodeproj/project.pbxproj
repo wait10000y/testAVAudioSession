@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E74D40981DC062890025F80C /* WS_VideoPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = E74D40971DC062890025F80C /* WS_VideoPlayer.m */; };
 		E767AA291B4A5E92002EC896 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E767AA281B4A5E92002EC896 /* Foundation.framework */; };
 		E767AA2B1B4A5E92002EC896 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E767AA2A1B4A5E92002EC896 /* CoreGraphics.framework */; };
 		E767AA2D1B4A5E92002EC896 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E767AA2C1B4A5E92002EC896 /* UIKit.framework */; };
@@ -21,6 +22,7 @@
 		E767AA521B4A5E92002EC896 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E767AA501B4A5E92002EC896 /* InfoPlist.strings */; };
 		E767AA541B4A5E92002EC896 /* testAVAudioSessionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E767AA531B4A5E92002EC896 /* testAVAudioSessionTests.m */; };
 		E767AA671B4A653F002EC896 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E767AA661B4A653F002EC896 /* AVFoundation.framework */; };
+		E78EFF321DBDA99D00326F3B /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E78EFF311DBDA99D00326F3B /* VideoToolbox.framework */; };
 		E7B23A431D7413E4001F9EA9 /* WS_MediaCaptureManagerUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = E7B23A421D7413E4001F9EA9 /* WS_MediaCaptureManagerUtil.m */; };
 		E7C03AA41B6B612200124195 /* TPCircularBuffer+AudioBufferList.c in Sources */ = {isa = PBXBuildFile; fileRef = E7C03A8E1B6B612200124195 /* TPCircularBuffer+AudioBufferList.c */; };
 		E7C03AA51B6B612200124195 /* TPCircularBuffer.c in Sources */ = {isa = PBXBuildFile; fileRef = E7C03A901B6B612200124195 /* TPCircularBuffer.c */; };
@@ -44,6 +46,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E74D40961DC062890025F80C /* WS_VideoPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WS_VideoPlayer.h; sourceTree = "<group>"; };
+		E74D40971DC062890025F80C /* WS_VideoPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WS_VideoPlayer.m; sourceTree = "<group>"; };
 		E75C75BA1B4F9B0C00C431AD /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		E767AA251B4A5E92002EC896 /* testAVAudioSession.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = testAVAudioSession.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E767AA281B4A5E92002EC896 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -63,6 +67,8 @@
 		E767AA511B4A5E92002EC896 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		E767AA531B4A5E92002EC896 /* testAVAudioSessionTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = testAVAudioSessionTests.m; sourceTree = "<group>"; };
 		E767AA661B4A653F002EC896 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		E78EFF311DBDA99D00326F3B /* VideoToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoToolbox.framework; path = System/Library/Frameworks/VideoToolbox.framework; sourceTree = SDKROOT; };
+		E78EFF341DBE007200326F3B /* deviceInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = deviceInfo.h; sourceTree = "<group>"; };
 		E7B23A411D7413E4001F9EA9 /* WS_MediaCaptureManagerUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WS_MediaCaptureManagerUtil.h; sourceTree = "<group>"; };
 		E7B23A421D7413E4001F9EA9 /* WS_MediaCaptureManagerUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WS_MediaCaptureManagerUtil.m; sourceTree = "<group>"; };
 		E7C03A8E1B6B612200124195 /* TPCircularBuffer+AudioBufferList.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "TPCircularBuffer+AudioBufferList.c"; sourceTree = "<group>"; };
@@ -90,6 +96,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E78EFF321DBDA99D00326F3B /* VideoToolbox.framework in Frameworks */,
 				E767AA671B4A653F002EC896 /* AVFoundation.framework in Frameworks */,
 				E767AA2B1B4A5E92002EC896 /* CoreGraphics.framework in Frameworks */,
 				E767AA2D1B4A5E92002EC896 /* UIKit.framework in Frameworks */,
@@ -132,6 +139,7 @@
 		E767AA271B4A5E92002EC896 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E78EFF311DBDA99D00326F3B /* VideoToolbox.framework */,
 				E75C75BA1B4F9B0C00C431AD /* OpenGLES.framework */,
 				E767AA661B4A653F002EC896 /* AVFoundation.framework */,
 				E767AA281B4A5E92002EC896 /* Foundation.framework */,
@@ -218,6 +226,9 @@
 				E7C03A9C1B6B612200124195 /* AudioRecorderTwo.m */,
 				E7C03A9D1B6B612200124195 /* WS_MediaCaptureManager.h */,
 				E7C03A9E1B6B612200124195 /* WS_MediaCaptureManager.m */,
+				E74D40961DC062890025F80C /* WS_VideoPlayer.h */,
+				E74D40971DC062890025F80C /* WS_VideoPlayer.m */,
+				E78EFF341DBE007200326F3B /* deviceInfo.h */,
 				E7B23A411D7413E4001F9EA9 /* WS_MediaCaptureManagerUtil.h */,
 				E7B23A421D7413E4001F9EA9 /* WS_MediaCaptureManagerUtil.m */,
 				E7C03A9F1B6B612200124195 /* RemoteIOPlayer.h */,
@@ -347,6 +358,7 @@
 				E7B23A431D7413E4001F9EA9 /* WS_MediaCaptureManagerUtil.m in Sources */,
 				E7C03AA91B6B612200124195 /* AudioRecorderOne.m in Sources */,
 				E7C03AAB1B6B612200124195 /* WS_MediaCaptureManager.m in Sources */,
+				E74D40981DC062890025F80C /* WS_VideoPlayer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

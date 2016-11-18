@@ -13,9 +13,17 @@
 //#import "AudioManager.h"
 //#import "AudioRecorderTwo.h"
 
+
+
+
+
+
+
 @interface ViewController ()<WS_MediaCaptureManagerDelegate>
 
 @property (nonatomic) WS_MediaCaptureManager *recorder;
+@property (nonatomic) WS_VideoPlayer *videoPlayer;
+
 //@property BOOL isCreatedSession;
 
 //@property (nonatomic) AudioPlayer *audioPlayer;
@@ -28,7 +36,18 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+  [self createVideoPlayer];
   NSLog(@"------------ ViewController viewDidLoad ---------------");
+}
+
+-(void)createVideoPlayer
+{
+  if (!self.videoPlayer) {
+//    self.videoPlayer = [VideoBuffPlayer new];
+    self.videoPlayer = [VideoImagePlayer new];
+    self.videoPlayer.frame = self.videoShow.bounds;
+    [self.videoShow addSubview:self.videoPlayer];
+  }
 }
 
 - (void)didReceiveMemoryWarning
@@ -37,10 +56,16 @@
   NSLog(@"------- didReceiveMemoryWarning ------");
 }
 
+-(void)actionTimerMethod:(NSTimer *)sender
+{
+    NSLog(@"--- actionTimerMethod :sender:%@ ---",sender.userInfo);
+}
+
+
 -(void)viewDidAppear:(BOOL)animated
 {
   [super viewDidAppear:animated];
-  
+  self.videoPlayer.frame = self.videoShow.bounds;
 }
 
 -(BOOL)createCaptureSession
@@ -102,14 +127,23 @@
 
 
 #pragma mark === delegate ===
--(void)videoRecordPartData:(UIImage*)theData
-{
-  [self.imgShow performSelectorOnMainThread:@selector(setImage:) withObject:theData waitUntilDone:NO];
-}
+//-(void)videoRecordPartData:(UIImage*)theData
+//{
+////    NSLog(@"--- image size: %@ , %@",NSStringFromCGSize(theData.size),theData);
+//    [self.videoPlayer showImage:theData];
+//}
+//
+//  // delegate
+//-(void)audioRecordPartData:(NSData*)theData
+//{
+//  
+//}
 
--(void)audioRecordPartData:(NSData*)theData
+-(void)managerRecordSampleBuffer:(CMSampleBufferRef *)theData mediaType:(int)theType
 {
-  
+  if (theType==1) { // video
+    [self.videoPlayer showVideoBuff:theData];
+  }
 }
 
 
@@ -144,6 +178,10 @@
     case 110: // stop video
     {
       [self.recorder stopRecordVideo];
+        [self.viewPreview.layer.sublayers enumerateObjectsUsingBlock:^(CALayer * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            [obj removeFromSuperlayer];
+        }];
+        self.imgShow.image = nil;
     } break;
     case 121: // start audio
     {
