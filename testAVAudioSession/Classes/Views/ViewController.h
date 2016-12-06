@@ -21,8 +21,6 @@
 
 @property (weak, nonatomic) IBOutlet UIView *viewPreview;
 
-@property (weak, nonatomic) IBOutlet UIImageView *imgShow;
-
 @property (weak, nonatomic) IBOutlet UIView *videoShow;
 
 @end

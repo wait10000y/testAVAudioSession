@@ -22,6 +22,7 @@
 		E767AA521B4A5E92002EC896 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E767AA501B4A5E92002EC896 /* InfoPlist.strings */; };
 		E767AA541B4A5E92002EC896 /* testAVAudioSessionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E767AA531B4A5E92002EC896 /* testAVAudioSessionTests.m */; };
 		E767AA671B4A653F002EC896 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E767AA661B4A653F002EC896 /* AVFoundation.framework */; };
+		E77BAB531DEFDE7000C14B0F /* testShowImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = E77BAB521DEFDE7000C14B0F /* testShowImageView.m */; };
 		E78EFF321DBDA99D00326F3B /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E78EFF311DBDA99D00326F3B /* VideoToolbox.framework */; };
 		E7B23A431D7413E4001F9EA9 /* WS_MediaCaptureManagerUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = E7B23A421D7413E4001F9EA9 /* WS_MediaCaptureManagerUtil.m */; };
 		E7C03AA41B6B612200124195 /* TPCircularBuffer+AudioBufferList.c in Sources */ = {isa = PBXBuildFile; fileRef = E7C03A8E1B6B612200124195 /* TPCircularBuffer+AudioBufferList.c */; };
@@ -67,6 +68,8 @@
 		E767AA511B4A5E92002EC896 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		E767AA531B4A5E92002EC896 /* testAVAudioSessionTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = testAVAudioSessionTests.m; sourceTree = "<group>"; };
 		E767AA661B4A653F002EC896 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		E77BAB511DEFDE7000C14B0F /* testShowImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = testShowImageView.h; sourceTree = "<group>"; };
+		E77BAB521DEFDE7000C14B0F /* testShowImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = testShowImageView.m; sourceTree = "<group>"; };
 		E78EFF311DBDA99D00326F3B /* VideoToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoToolbox.framework; path = System/Library/Frameworks/VideoToolbox.framework; sourceTree = SDKROOT; };
 		E78EFF341DBE007200326F3B /* deviceInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = deviceInfo.h; sourceTree = "<group>"; };
 		E7B23A411D7413E4001F9EA9 /* WS_MediaCaptureManagerUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WS_MediaCaptureManagerUtil.h; sourceTree = "<group>"; };
@@ -242,6 +245,8 @@
 			children = (
 				E7C03AA21B6B612200124195 /* ViewController.h */,
 				E7C03AA31B6B612200124195 /* ViewController.m */,
+				E77BAB511DEFDE7000C14B0F /* testShowImageView.h */,
+				E77BAB521DEFDE7000C14B0F /* testShowImageView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -347,6 +352,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E767AA391B4A5E92002EC896 /* AppDelegate.m in Sources */,
+				E77BAB531DEFDE7000C14B0F /* testShowImageView.m in Sources */,
 				E767AA351B4A5E92002EC896 /* main.m in Sources */,
 				E7C03AA81B6B612200124195 /* AudioRecorder.m in Sources */,
 				E7C03AAC1B6B612200124195 /* RemoteIOPlayer.m in Sources */,

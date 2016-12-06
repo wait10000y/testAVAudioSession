@@ -11,9 +11,24 @@
 
 @implementation WS_VideoPlayer
 
+-(void)awakeFromNib
+{
+  [super awakeFromNib];
+  _pause = YES;
+}
+
+- (instancetype)init
+{
+  self = [super init];
+  if (self) {
+    _pause = YES;
+  }
+  return self;
+}
+
 -(void)showVideoBuff:(CMSampleBufferRef*)bufferRef
 {
-  NSLog(@"need implement this method");
+  NSLog(@"need implement [showVideoBuff:] method");
 }
 
 /*
@@ -23,6 +38,7 @@
     // Drawing code
 }
 */
+
 
 @end
 
@@ -51,6 +67,9 @@
 
 -(void)showVideoBuff:(CMSampleBufferRef *)sampleBuffer
 {
+  if (self.pause) {
+    return;
+  }
     if (!sampleBuffer){
         return;
     }
@@ -195,17 +214,26 @@
     }
 }
 
+-(void)pause:(BOOL)isPause
+{
+  NSLog(@"need implement [pause:] method");
+}
+
+-(void)stop
+{
+  NSLog(@"need implement [stop] method");
+}
+
 @end
+
 
 
 @implementation VideoImagePlayer
 {
     UIImage *tempImage;
     UIImage *newImage;
-    CGRect drawFrame;
     
     CADisplayLink *display;
-    
 }
 
 - (instancetype)init
@@ -220,24 +248,33 @@
 -(void)awakeFromNib
 {
     [super awakeFromNib];
+  [self setDefaultData];
 }
 
 -(void)setDefaultData
 {
-  display = [CADisplayLink displayLinkWithTarget:self selector:@selector(needDisplayImage:)];
+  display = [CADisplayLink displayLinkWithTarget:self selector:@selector(displayLinkCall:)];
   [display addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
 }
 
--(void)needDisplayImage:(id)sender
+-(void)displayLinkCall:(id)sender
 {
+  if (self.pause) {
+    return;
+  }
+  NSLog(@" CADisplayLink needDisplayImage ");
     if (newImage != tempImage) {
-        NSLog(@" CADisplayLink needDisplayImage ");
         [self performSelectorOnMainThread:@selector(setNeedsDisplay) withObject:nil waitUntilDone:NO];
+//      self.layer.contents = (__bridge id _Nullable)(newImage.CGImage);
+//      tempImage = newImage;
     }
 }
 
 -(void)showVideoBuff:(CMSampleBufferRef *)bufferRef
 {
+  if (self.pause) {
+    return;
+  }
   UIImage *image = [self imageFromSampleBuffer:bufferRef videoFormat:kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange];
   [self showImage:image];
 }
@@ -250,66 +287,135 @@
   NSDictionary *opt =  @{ (id)kCVPixelBufferPixelFormatTypeKey : @(videoFormat) };
   CIImage *image = [[CIImage alloc]   initWithCVPixelBuffer:imageBuffer options:opt];
   CVPixelBufferUnlockBaseAddress(imageBuffer,0);
-  return [UIImage imageWithCIImage:image scale:[UIScreen mainScreen].scale orientation:UIImageOrientationUp];
+//  return [UIImage imageWithCIImage:image scale:[UIScreen mainScreen].scale orientation:UIImageOrientationUp];
+  return [UIImage imageWithCIImage:image];
   
 }
 
 -(void)showImage:(UIImage*)theImage
 {
-    drawFrame = self.bounds;
-        //    if (theImage) {
-        //        CGSize imgSize = theImage.size;
-        //        CGSize osize = self.frame.size;
-        //        float oWidth = 0;
-        //        float oHeight = 0;
-        //
-        //        float OriRad = theImage.size.height/theImage.size.width;
-        //        float NewRad = osize.height/osize.width;
-        //
-        //
-        //
-        //        if((OriRad>=1 && NewRad <=1) ||(OriRad<= 1 && NewRad >=1)){
-        //            osize = CGSizeMake(osize.height, osize.width);
-        //        }
-        //
-        //        if((osize.width>=oriSize.width && osize.height>=oriSize.height) ||(osize.width>=oriSize.height && osize.height>=oriSize.width)){
-        //            osize = oriSize;
-        //        }else{
-        //            if (OriRad < NewRad) {
-        //                osize.height = OriRad*osize.width;
-        //            }else{
-        //                osize.width = osize.height/OriRad;
-        //            }
-        //        }
-        //        drawFrame = CGRectMake(abs(self.frame.size.width-osize.width)/2, abs(self.frame.size.height-osize.height)/2, osize.width, osize.height);
-        //
-        //    }
-    newImage = theImage;
-        //    [self performSelectorOnMainThread:@selector(setNeedsDisplay) withObject:nil waitUntilDone:YES];
+  if (self.pause) {
+    return;
+  }
+  newImage = theImage;
+
+//    [self performSelectorOnMainThread:@selector(setNeedsDisplay) withObject:nil waitUntilDone:YES];
 }
 
 -(void)drawRect:(CGRect)rect
 {
     [super drawRect:rect];
     if (newImage) {
-        NSLog(@"--- VideoShowView drawRect image:%@ ,drawFrame:%@ ---",tempImage,NSStringFromCGRect(drawFrame));
+        NSLog(@"--- VideoShowView drawRect image:%@ ,drawFrame:%@ ---",tempImage,NSStringFromCGRect(rect));
             //        CGContextRef context = UIGraphicsGetCurrentContext();
             //        CGFloat contextScale = [UIScreen mainScreen].scale;
             //        UIGraphicsBeginImageContextWithOptions(drawFrame.size, NO, contextScale);
             //        CGContextDrawImage(context, drawFrame, newImage.CGImage);
+
+      CGRect drawFrame = rect;
+      if (CGSizeEqualToSize(newImage.size,self.bounds.size)) {
+        drawFrame = self.bounds;
+      }else{
+        CGSize imgSize = newImage.size;
+        CGSize osize = self.bounds.size;
+        float oWidth = 0;
+        float oHeight = 0;
+
+        float OriRad = imgSize.height/imgSize.width;
+        float NewRad = osize.height/osize.width;
+
+        if (OriRad < NewRad) {
+          oWidth = osize.width;
+          oHeight = OriRad*osize.width;
+        }else{
+          oHeight = osize.height;
+          oWidth = osize.height/OriRad;
+        }
+        drawFrame = CGRectMake((osize.width-oWidth)/2, (osize.height-oHeight)/2, oWidth, oHeight);
+      }
+
         [newImage drawInRect:drawFrame];
     }
     tempImage = newImage;
-    
+
 }
 
 - (void)dealloc
 {
     [display invalidate];
+  display = nil;
 }
 
 @end
 
+
+
+
+
+@implementation VideoImageLayerPlayer
+
+-(void)showVideoBuff:(CMSampleBufferRef *)bufferRef
+{
+  if (self.pause) {
+    return;
+  }
+  @autoreleasepool {
+    UIImage *image = [self imageFromSampleBuffer:bufferRef videoFormat:kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange];
+    if (image) {
+      CGImageRef cgImage = image.CGImage;
+      if (image.CGImage == NULL) {
+        static CIContext *context = nil;
+        if (!context) {
+          context = [CIContext contextWithOptions:nil];
+        }
+        cgImage = [context createCGImage:image.CIImage fromRect:[image.CIImage extent]];
+      }
+      [self.layer performSelectorOnMainThread:@selector(setContents:) withObject:(__bridge id)(cgImage) waitUntilDone:NO];
+      CGImageRelease(cgImage);
+    }
+
+  }
+
+}
+
+- (UIImage *) imageFromSampleBuffer:(CMSampleBufferRef *) sampleBuffer videoFormat:(OSType)videoFormat
+{
+  CVImageBufferRef imageBuffer = CMSampleBufferGetImageBuffer(*sampleBuffer);
+    // Lock the base address of the pixel buffer
+  CVPixelBufferLockBaseAddress(imageBuffer, 0);
+  NSDictionary *opt =  @{ (id)kCVPixelBufferPixelFormatTypeKey : @(videoFormat) };
+  CIImage *ciImage = [[CIImage alloc]   initWithCVPixelBuffer:imageBuffer options:opt];
+  CVPixelBufferUnlockBaseAddress(imageBuffer,0);
+//  CVPixelBufferRelease(imageBuffer);
+    //  return [UIImage imageWithCIImage:image scale:[UIScreen mainScreen].scale orientation:UIImageOrientationUp];
+  return [UIImage imageWithCIImage:ciImage];
+
+
+//  CIContext *context = [CIContext contextWithOptions:nil];
+//  CIFilter *filter = [CIFilter filterWithName:@"CISepiaTone"];
+//  [filter setValue:ciImage forKey:kCIInputImageKey];
+//  [filter setValue:@0.8f forKey:kCIInputIntensityKey];
+//  CIImage *outputImg = [filter outputImage];
+//  CGImageRef cgImage = [context createCGImage:outputImg fromRect:[outputImg extent]];
+//  
+//  return cgImage;
+
+}
+
+
+
+
+-(void)showImage:(UIImage*)theImage
+{
+  if (self.pause) {
+    return;
+  }
+//  self.layer.contents = (__bridge id _Nullable)(theImage.CGImage);
+[self.layer performSelectorOnMainThread:@selector(setContents:) withObject:(__bridge id _Nullable)(theImage.CGImage) waitUntilDone:NO];
+
+}
+
+@end
 
 
 @interface VideoShowLayer : CALayer
@@ -323,6 +429,7 @@
 {
   UIImage *tempImage;
 }
+
 -(void)playImage:(UIImage *)theImage
 {
   if (theImage != tempImage) {

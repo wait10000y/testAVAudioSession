@@ -46,7 +46,7 @@
 
 
 @interface WS_MediaCaptureManagerVideoProfile : NSObject
-@property (nonatomic) NSInteger videoType; // 视频输出类型:image
+@property (nonatomic) NSInteger videoType; // 视频输出类型 1:image
 @property (nonatomic) CMTime videoFrameDuration; // 帧率
 @property (nonatomic) OSType videoFormat; // 
 @property (nonatomic) AVCaptureVideoOrientation videoOrientation; // 设置输出视频默认方向

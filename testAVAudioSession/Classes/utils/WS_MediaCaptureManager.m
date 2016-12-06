@@ -23,7 +23,7 @@
     
     _videoDevicePosition = AVCaptureDevicePositionFront;
     _videoSize = CGSizeZero;
-      _sessionPreset = AVCaptureSessionPreset352x288; // AVCaptureSessionPresetMedium;
+      _sessionPreset = AVCaptureSessionPreset640x480; // AVCaptureSessionPresetMedium;
     
   }
   return self;
@@ -651,13 +651,9 @@
   }
   
     //    __weak typeof(self) weakSelf = self;
-//  NSLog(@"---- isMainThread:%d ----",[NSThread isMainThread]); // no
     if (captureOutput == self.videoOutput) { // video
-
-        [self descSampleBuffer:&sampleBuffer];
-        
+//        [self descSampleBuffer:&sampleBuffer];
       if ([self.delegateVideo respondsToSelector:@selector(videoRecordPartData:)]) {
-        // Create a UIImage from the sample buffer data
         @autoreleasepool {
           UIImage *image = [self imageFromSampleBuffer:&sampleBuffer videoFormat:_videoProfile.videoFormat];
           [self.delegateVideo videoRecordPartData:image];
@@ -735,7 +731,7 @@
 }
 
 
-// Create a UIImage from sample buffer data
+// rgb格式的视频格式(kCVPixelFormatType_32BGRA); 转换成uiimage
 - (UIImage *) imageFromRGBSampleBuffer:(CMSampleBufferRef *) sampleBuffer
 {
   UIImage *image;
@@ -777,6 +773,7 @@
   return (image);
 }
 
+  // yuv格式的视频格式(kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange); 返回的UIImage对象,无法直接获取cgImage对象
 - (UIImage *) imageFromSampleBuffer:(CMSampleBufferRef *) sampleBuffer videoFormat:(OSType)videoFormat
 {
     CVImageBufferRef imageBuffer = CMSampleBufferGetImageBuffer(*sampleBuffer);
@@ -786,7 +783,6 @@
     CIImage *image = [[CIImage alloc]   initWithCVPixelBuffer:imageBuffer options:opt];
     CVPixelBufferUnlockBaseAddress(imageBuffer,0);
     return [UIImage imageWithCIImage:image scale:[UIScreen mainScreen].scale orientation:UIImageOrientationUp];
-
 }
 
 
@@ -800,9 +796,8 @@
  CVImageBufferYCbCrMatrix = "ITU_R_709_2";
  Version = 2;
  }
- 在我有限的视频基础中，ITU_R_709_2是HD视频的方案，一般用于YUV422，YUV至RGB的转换矩阵和SD视频（一般是ITU_R_601_4）并不相同。
- 
- 
+ 在有限的视频基础中，ITU_R_709_2是HD视频的方案，一般用于YUV422，YUV至RGB的转换矩阵和SD视频（一般是ITU_R_601_4）并不相同。
+
  */
 -(void)descSampleBuffer:(CMSampleBufferRef *) sampleBuffer
 {
@@ -831,8 +826,8 @@
     CMVideoFormatDescriptionRef desc = NULL;
     CMVideoFormatDescriptionCreateForImageBuffer(NULL, pixelBuffer, &desc);
     CFDictionaryRef extensions = CMFormatDescriptionGetExtensions(desc);
-    NSLog(@"descSampleBuffer: extensions = %@", extensions);
-    
+//    NSLog(@"descSampleBuffer: extensions = %@", extensions);
+
     
     // 打印 有无扩展像素
     size_t  extraColumnsOnLeft;
@@ -866,7 +861,6 @@
 {
     
     CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(*sampleBuffer);
-    
         // 获取摄像头输出图像的宽高
     size_t width = CVPixelBufferGetWidth(pixelBuffer);
     size_t height = CVPixelBufferGetHeight(pixelBuffer);
@@ -886,66 +880,9 @@
             // show err
         
     }
-    
-    
-    
+
 }
 
-
-/*
- 
- extensions = {
- FormatName = "H.264";
- SampleDescriptionExtensionAtoms =     {
- avcC = <014d0028 ffe1000b 274d0028 ab603c01 13f2a001 000428ee 3c30>;
- };
- }
- samples count = 1
- 采样数据为1，并不意味着slice数量为1。目前没找到输出多slice码流（多个I、P Slice）的参数配置。sampleBuffer的详细信息示例如下：
- 
- 
-CMSampleBuffer 0x126e9fd80 retainCount: 1 allocator: 0x1a227cb68
-invalid = NO
-dataReady = YES
-makeDataReadyCallback = 0x0
-makeDataReadyRefcon = 0x0
-formatDescription = <CMVideoFormatDescription 0x126e9fd50 [0x1a227cb68]> {
-mediaType:'vide'
-mediaSubType:'avc1'
-mediaSpecific: {
-codecType: 'avc1'        dimensions: 1920 x 1080
-}
-extensions: {<CFBasicHash 0x126e9eae0 [0x1a227cb68]>{type = immutable dict, count = 2,
-    entries =>
-    0 : <CFString 0x19dd523e0 [0x1a227cb68]>{contents = "SampleDescriptionExtensionAtoms"} = <CFBasicHash 0x126e9e090 [0x1a227cb68]>{type = immutable dict, count = 1,
-        entries =>
-        2 : <CFString 0x19dd57c20 [0x1a227cb68]>{contents = "avcC"} = <CFData 0x126e9e1b0 [0x1a227cb68]>{length = 26, capacity = 26, bytes = 0x014d0028ffe1000b274d0028ab603c01 ... a001000428ee3c30}
-    }
-    
-    2 : <CFString 0x19dd52440 [0x1a227cb68]>{contents = "FormatName"} = H.264
-}
-}
-}
-sbufToTrackReadiness = 0x0
-numSamples = 1
-sampleTimingArray[1] = {
-    {PTS = {196709596065916/1000000000 = 196709.596}, DTS = {INVALID}, duration = {INVALID}},
-}
-sampleSizeArray[1] = {
-    sampleSize = 5707,
-}
-sampleAttachmentsArray[1] = {
-    sample 0:
-    DependsOnOthers = false
-}
-dataBuffer = 0x126e9fc50
- 
- 
- avcC放入CFDictionaryRef然后传递至CMVideoFormatDescriptionCreate，创建视频格式描述，接着创建解码会话，开始解码。
- 
- 由此也可发现，VideoToolbox编码输出为avcC格式，而且VideoToolbox也只支持avcC格式的H.264。如果从网络中得到Annex-B格式的H.264数据（一般称作H.264裸流或Elementary Stream），用CMVideoFormatDescriptionCreateFromH264ParameterSets创建视频格式描述更方便，同时解码时需要将Annex-B转换成avcC，这也是WWDC2014 513 "direct access to media encoding and decoding"中说VideoToolbox只支持MP4容器装载的H.264数据的原因，就我所知，当写入MP4时，Annex-B使用的起始码（Start Code）会被写成长度（Length）。这就是VideoToolBox硬解最容易出问题的点
- 
- */
 
 
 static void compressionOutputCallback(void * CM_NULLABLE outputCallbackRefCon,
@@ -954,7 +891,7 @@ static void compressionOutputCallback(void * CM_NULLABLE outputCallbackRefCon,
                                       VTEncodeInfoFlags infoFlags,
                                       CM_NULLABLE CMSampleBufferRef sampleBuffer ) {
     if (status != noErr) {
-        NSLog(@"%s with status(%d)", __FUNCTION__, status);
+        NSLog(@"%s with status(%d)", __FUNCTION__, (int)status);
         return;
     }
     if (infoFlags == kVTEncodeInfo_FrameDropped) {
@@ -969,9 +906,7 @@ static void compressionOutputCallback(void * CM_NULLABLE outputCallbackRefCon,
     CMItemCount count = CMSampleBufferGetNumSamples(sampleBuffer);
     NSLog(@"samples count = %ld", count);
     /* ====== 辅助调试 ====== */
-    
         // 推流或写入文件
-    
 }
 
 
@@ -990,9 +925,6 @@ static void compressionOutputCallback(void * CM_NULLABLE outputCallbackRefCon,
 //{
 //  [self endRecordSession];
 //}
-
-
-
 
 
 

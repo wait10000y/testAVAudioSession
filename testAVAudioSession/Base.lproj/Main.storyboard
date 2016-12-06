@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES" initialViewController="vXZ-lx-hvc">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -15,16 +18,15 @@
                         <viewControllerLayoutGuide type="bottom" id="u9T-pO-cdB"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="B2o-1F-B0i">
-                                <frame key="frameInset" minY="20" width="320" height="172"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="B2o-1F-B0i">
+                                <rect key="frame" x="0.0" y="20" width="375" height="172"/>
                                 <subviews>
                                     <button opaque="NO" tag="100" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7KV-TJ-DSg">
-                                        <frame key="frameInset" minX="20" minY="6" width="113" height="42"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <rect key="frame" x="46" y="6" width="113" height="42"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <inset key="insetFor6xAndEarlier" minX="0.0" minY="20" maxX="0.0" maxY="-20"/>
                                         <state key="normal" title="createSession">
@@ -34,21 +36,9 @@
                                             <action selector="actionOperations:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="3mD-tN-Nbx"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" tag="102" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F0I-vp-DWb">
-                                        <frame key="frameInset" minX="187" minY="6" width="113" height="42"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <inset key="insetFor6xAndEarlier" minX="0.0" minY="20" maxX="0.0" maxY="-20"/>
-                                        <state key="normal" title="endSesson">
-                                            <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="actionOperations:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="FbI-dL-yP8"/>
-                                        </connections>
-                                    </button>
                                     <button opaque="NO" tag="111" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hB2-7g-d1x">
-                                        <frame key="frameInset" minX="20" minY="65" width="113" height="42"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <rect key="frame" x="46" y="65" width="113" height="42"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <inset key="insetFor6xAndEarlier" minX="0.0" minY="20" maxX="0.0" maxY="-20"/>
                                         <state key="normal" title="recordVideo">
@@ -58,21 +48,9 @@
                                             <action selector="actionOperations:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="fyF-m6-PfA"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" tag="110" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xXz-uX-l81">
-                                        <frame key="frameInset" minX="187" minY="65" width="113" height="42"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <inset key="insetFor6xAndEarlier" minX="0.0" minY="20" maxX="0.0" maxY="-20"/>
-                                        <state key="normal" title="stopVideo">
-                                            <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="actionOperations:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="kjZ-0P-dFy"/>
-                                        </connections>
-                                    </button>
                                     <button opaque="NO" tag="121" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RLS-vq-3SL">
-                                        <frame key="frameInset" minX="20" minY="124" width="113" height="42"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <rect key="frame" x="46" y="124" width="113" height="42"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <inset key="insetFor6xAndEarlier" minX="0.0" minY="20" maxX="0.0" maxY="-20"/>
                                         <state key="normal" title="recordAudio">
@@ -82,9 +60,33 @@
                                             <action selector="actionOperations:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="dgf-Pq-fxY"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" tag="102" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F0I-vp-DWb">
+                                        <rect key="frame" x="210" y="6" width="113" height="42"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <inset key="insetFor6xAndEarlier" minX="0.0" minY="20" maxX="0.0" maxY="-20"/>
+                                        <state key="normal" title="endSesson">
+                                            <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="actionOperations:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="FbI-dL-yP8"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" tag="110" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xXz-uX-l81">
+                                        <rect key="frame" x="210" y="65" width="113" height="42"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <inset key="insetFor6xAndEarlier" minX="0.0" minY="20" maxX="0.0" maxY="-20"/>
+                                        <state key="normal" title="stopVideo">
+                                            <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="actionOperations:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="kjZ-0P-dFy"/>
+                                        </connections>
+                                    </button>
                                     <button opaque="NO" tag="120" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s1A-gQ-Dpl">
-                                        <frame key="frameInset" minX="187" minY="124" width="113" height="42"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <rect key="frame" x="210" y="124" width="113" height="42"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <inset key="insetFor6xAndEarlier" minX="0.0" minY="20" maxX="0.0" maxY="-20"/>
                                         <state key="normal" title="stopAudio">
@@ -95,21 +97,20 @@
                                         </connections>
                                     </button>
                                 </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="172" id="xWx-EA-IJE"/>
+                                </constraints>
                             </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ESs-Qf-JRb">
-                                <frame key="frameInset" minY="232" width="320" height="190"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dKL-3Y-H9f">
-                                <frame key="frameInset" minY="232" width="320" height="190"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dKL-3Y-H9f">
+                                <rect key="frame" x="0.0" y="232" width="375" height="415"/>
                                 <subviews>
-                                    <button opaque="NO" tag="101" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2BO-BG-GT2">
-                                        <frame key="frameInset" minX="20" width="72" height="42"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <button opaque="NO" tag="101" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2BO-BG-GT2">
+                                        <rect key="frame" x="32" y="0.0" width="72" height="42"/>
                                         <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="72" id="Buw-Ei-VsO"/>
+                                            <constraint firstAttribute="height" constant="42" id="S1J-eH-968"/>
+                                        </constraints>
                                         <inset key="insetFor6xAndEarlier" minX="0.0" minY="20" maxX="0.0" maxY="-20"/>
                                         <state key="normal" title="切换镜头">
                                             <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -118,55 +119,13 @@
                                             <action selector="actionOperations:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="Phu-ge-fzf"/>
                                         </connections>
                                     </button>
-                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sZM-hX-L6p">
-                                        <frame key="frameInset" minX="10" minY="60" width="145" height="120"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="摄像头预览画面" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vv4-TO-cSZ">
-                                                <frame key="frameInset" width="145" height="20"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <inset key="insetFor6xAndEarlier" minX="0.0" minY="20" maxX="0.0" maxY="-20"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EN0-NV-Xil">
-                                                <frame key="frameInset" minY="20" width="145" height="100"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <inset key="insetFor6xAndEarlier" minX="0.0" minY="20" maxX="0.0" maxY="-20"/>
-                                            </view>
-                                        </subviews>
-                                        <inset key="insetFor6xAndEarlier" minX="0.0" minY="20" maxX="0.0" maxY="-20"/>
-                                    </view>
-                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2cA-F1-BA7">
-                                        <frame key="frameInset" minX="165" minY="60" width="145" height="120"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="编码后的图片" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dZx-cl-JFF">
-                                                <frame key="frameInset" width="145" height="20"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <inset key="insetFor6xAndEarlier" minX="0.0" minY="20" maxX="0.0" maxY="-20"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="igf-7x-WLc">
-                                                <frame key="frameInset" minY="20" width="145" height="100"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <inset key="insetFor6xAndEarlier" minX="0.0" minY="20" maxX="0.0" maxY="-20"/>
-                                            </imageView>
-                                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zE2-u2-WI4" customClass="VideoShowView">
-                                                <frame key="frameInset" minY="20" width="145" height="100"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            </view>
-                                        </subviews>
-                                        <inset key="insetFor6xAndEarlier" minX="0.0" minY="20" maxX="0.0" maxY="-20"/>
-                                    </view>
-                                    <button opaque="NO" tag="103" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8C8-hf-prd">
-                                        <frame key="frameInset" minX="112" width="72" height="42"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <button opaque="NO" tag="103" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8C8-hf-prd">
+                                        <rect key="frame" x="134" y="0.0" width="72" height="42"/>
                                         <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="42" id="5sL-jh-dgA"/>
+                                            <constraint firstAttribute="width" constant="72" id="QN1-54-eZS"/>
+                                        </constraints>
                                         <inset key="insetFor6xAndEarlier" minX="0.0" minY="20" maxX="0.0" maxY="-20"/>
                                         <state key="normal" title="切换方向">
                                             <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -175,26 +134,105 @@
                                             <action selector="actionOperations:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="DjL-xX-5Ef"/>
                                         </connections>
                                     </button>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2cA-F1-BA7">
+                                        <rect key="frame" x="197.5" y="72" width="167.5" height="333"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="编码后的图片" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dZx-cl-JFF">
+                                                <rect key="frame" x="0.0" y="0.0" width="167.5" height="20"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="20" id="tEQ-k3-xEg"/>
+                                                </constraints>
+                                                <inset key="insetFor6xAndEarlier" minX="0.0" minY="20" maxX="0.0" maxY="-20"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zE2-u2-WI4" customClass="VideoShowView">
+                                                <rect key="frame" x="0.0" y="25" width="167.5" height="308"/>
+                                            </view>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstItem="zE2-u2-WI4" firstAttribute="leading" secondItem="2cA-F1-BA7" secondAttribute="leading" id="0ps-FZ-9nu"/>
+                                            <constraint firstItem="dZx-cl-JFF" firstAttribute="top" secondItem="2cA-F1-BA7" secondAttribute="top" id="Lm1-gn-LiI"/>
+                                            <constraint firstAttribute="trailing" secondItem="zE2-u2-WI4" secondAttribute="trailing" id="cT5-kZ-vux"/>
+                                            <constraint firstAttribute="bottom" secondItem="zE2-u2-WI4" secondAttribute="bottom" id="ogJ-St-oNN"/>
+                                            <constraint firstAttribute="trailing" secondItem="dZx-cl-JFF" secondAttribute="trailing" id="uiB-sK-97h"/>
+                                            <constraint firstItem="zE2-u2-WI4" firstAttribute="top" secondItem="dZx-cl-JFF" secondAttribute="bottom" constant="5" id="xCm-TH-GFb"/>
+                                            <constraint firstItem="dZx-cl-JFF" firstAttribute="leading" secondItem="2cA-F1-BA7" secondAttribute="leading" id="y79-qz-Pcy"/>
+                                        </constraints>
+                                        <inset key="insetFor6xAndEarlier" minX="0.0" minY="20" maxX="0.0" maxY="-20"/>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sZM-hX-L6p">
+                                        <rect key="frame" x="10" y="72" width="167.5" height="333"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="摄像头预览画面" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vv4-TO-cSZ">
+                                                <rect key="frame" x="0.0" y="0.0" width="167.5" height="20"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="20" id="AvT-3K-Htq"/>
+                                                </constraints>
+                                                <inset key="insetFor6xAndEarlier" minX="0.0" minY="20" maxX="0.0" maxY="-20"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EN0-NV-Xil">
+                                                <rect key="frame" x="0.0" y="25" width="167.5" height="308"/>
+                                                <inset key="insetFor6xAndEarlier" minX="0.0" minY="20" maxX="0.0" maxY="-20"/>
+                                            </view>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstItem="vv4-TO-cSZ" firstAttribute="leading" secondItem="sZM-hX-L6p" secondAttribute="leading" id="0LS-ZL-r1d"/>
+                                            <constraint firstItem="EN0-NV-Xil" firstAttribute="top" secondItem="vv4-TO-cSZ" secondAttribute="bottom" constant="5" id="7Oh-rf-nA6"/>
+                                            <constraint firstAttribute="trailing" secondItem="vv4-TO-cSZ" secondAttribute="trailing" id="8Dk-z0-sp0"/>
+                                            <constraint firstItem="vv4-TO-cSZ" firstAttribute="top" secondItem="sZM-hX-L6p" secondAttribute="top" id="TkK-wv-4x2"/>
+                                            <constraint firstAttribute="bottom" secondItem="EN0-NV-Xil" secondAttribute="bottom" id="b7v-ya-WJD"/>
+                                            <constraint firstAttribute="trailing" secondItem="EN0-NV-Xil" secondAttribute="trailing" id="jEI-Y0-1C9"/>
+                                            <constraint firstItem="EN0-NV-Xil" firstAttribute="leading" secondItem="sZM-hX-L6p" secondAttribute="leading" id="pWU-up-9ZA"/>
+                                        </constraints>
+                                        <inset key="insetFor6xAndEarlier" minX="0.0" minY="20" maxX="0.0" maxY="-20"/>
+                                    </view>
                                 </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="8C8-hf-prd" firstAttribute="top" secondItem="dKL-3Y-H9f" secondAttribute="top" id="3Z3-TR-EoN"/>
+                                    <constraint firstItem="2cA-F1-BA7" firstAttribute="leading" secondItem="sZM-hX-L6p" secondAttribute="trailing" constant="20" id="5rV-WL-dF6"/>
+                                    <constraint firstAttribute="trailing" secondItem="2cA-F1-BA7" secondAttribute="trailing" constant="10" id="EhF-HA-PI5"/>
+                                    <constraint firstItem="sZM-hX-L6p" firstAttribute="leading" secondItem="dKL-3Y-H9f" secondAttribute="leading" constant="10" id="KHN-Rp-mK4"/>
+                                    <constraint firstItem="sZM-hX-L6p" firstAttribute="top" secondItem="8C8-hf-prd" secondAttribute="bottom" constant="30" id="Kkw-yG-JBD"/>
+                                    <constraint firstAttribute="bottom" secondItem="sZM-hX-L6p" secondAttribute="bottom" constant="10" id="Pw2-5b-k5P"/>
+                                    <constraint firstItem="2cA-F1-BA7" firstAttribute="top" secondItem="dKL-3Y-H9f" secondAttribute="top" constant="72" id="WNk-zC-m9X"/>
+                                    <constraint firstItem="2BO-BG-GT2" firstAttribute="top" secondItem="dKL-3Y-H9f" secondAttribute="top" id="g39-xP-MDc"/>
+                                    <constraint firstAttribute="bottom" secondItem="2cA-F1-BA7" secondAttribute="bottom" constant="10" id="jVm-ZV-Awq"/>
+                                    <constraint firstItem="sZM-hX-L6p" firstAttribute="width" secondItem="2cA-F1-BA7" secondAttribute="width" id="mAm-0o-NS7"/>
+                                    <constraint firstItem="2BO-BG-GT2" firstAttribute="leading" secondItem="dKL-3Y-H9f" secondAttribute="leading" constant="32" id="png-rZ-IpJ"/>
+                                    <constraint firstItem="2cA-F1-BA7" firstAttribute="leading" secondItem="sZM-hX-L6p" secondAttribute="trailing" constant="20" id="wXM-9e-l6P"/>
+                                    <constraint firstItem="8C8-hf-prd" firstAttribute="leading" secondItem="2BO-BG-GT2" secondAttribute="trailing" constant="30" id="xId-La-rG1"/>
+                                </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="B2o-1F-B0i" secondAttribute="trailing" id="4rP-Py-7Rl"/>
+                            <constraint firstItem="u9T-pO-cdB" firstAttribute="top" secondItem="dKL-3Y-H9f" secondAttribute="bottom" constant="20" id="5AG-T3-Liy"/>
+                            <constraint firstItem="dKL-3Y-H9f" firstAttribute="top" secondItem="B2o-1F-B0i" secondAttribute="bottom" constant="40" id="6Ns-Pi-1Ts"/>
+                            <constraint firstItem="B2o-1F-B0i" firstAttribute="top" secondItem="ksg-OF-CZh" secondAttribute="bottom" id="FMG-RL-IHS"/>
+                            <constraint firstItem="B2o-1F-B0i" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="Rlb-Hy-GtS"/>
+                            <constraint firstAttribute="trailing" secondItem="dKL-3Y-H9f" secondAttribute="trailing" id="SU3-aJ-UOD"/>
+                            <constraint firstItem="dKL-3Y-H9f" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="r2l-Zs-pHI"/>
+                        </constraints>
                     </view>
                     <connections>
-                        <outlet property="imgShow" destination="igf-7x-WLc" id="RG7-Tv-4rh"/>
                         <outlet property="videoShow" destination="zE2-u2-WI4" id="nHt-E1-Nhw"/>
                         <outlet property="viewPreview" destination="EN0-NV-Xil" id="tOb-gI-oGS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-260" y="-159"/>
+            <point key="canvasLocation" x="-260.5" y="-159.5"/>
         </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination" type="retina4_0.fullscreen"/>
+        <simulatedScreenMetrics key="destination" type="retina4_7.fullscreen"/>
     </simulatedMetricsContainer>
 </document>

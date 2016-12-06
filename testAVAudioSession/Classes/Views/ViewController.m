@@ -13,7 +13,7 @@
 //#import "AudioManager.h"
 //#import "AudioRecorderTwo.h"
 
-
+#import "testShowImageView.h"
 
 
 
@@ -29,6 +29,8 @@
 //@property (nonatomic) AudioPlayer *audioPlayer;
 //@property (nonatomic) AudioManager *audioManager;
 //@property (nonatomic) AudioRecorderTwo *audioRecorder;
+
+@property (nonatomic) UIImage *testImage;
 @end
 
 @implementation ViewController
@@ -38,13 +40,74 @@
     [super viewDidLoad];
   [self createVideoPlayer];
   NSLog(@"------------ ViewController viewDidLoad ---------------");
+
+  _testImage = [UIImage imageNamed:@"test2"];
+  NSLog(@"-----iamge:%@ ----",_testImage);
+
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+  [super viewDidAppear:animated];
+//  [self testImageShow];
+  [self testSortString];
+  self.videoPlayer.frame = self.videoShow.bounds;
+  [self.videoShow addSubview:self.videoPlayer];
+}
+
+
+-(void)testSortString
+{
+  NSArray *sortedArr = @[
+                         @"2016-11-08 12",
+                         @"2017-11-07 12",
+                         @"2016-11-09 13",
+                         @"2016-11-09 12",
+                         ];
+
+sortedArr = [sortedArr sortedArrayUsingComparator:^NSComparisonResult(NSString *obj1, NSString *obj2) {
+
+  NSComparisonResult result = [obj1 compare:obj2];
+  NSLog(@"--- obj1:%@ , obj2:%@ compare result:%d ",obj1,obj2,result);
+  return  [obj1 compare:obj2];
+}];
+
+  NSLog(@"----arr:%@ ======",sortedArr);
+}
+
+
+-(void)testImageShow
+{
+//  CALayer *newLayer = [[CALayer alloc] init];
+//  newLayer.frame = self.view.layer.frame;
+//  [self.view.layer addSublayer:newLayer];
+  testShowImageView *tView = [[testShowImageView alloc] initWithFrame:self.view.bounds];
+  [self.view addSubview:tView];
+  [tView.layer setBackgroundColor:[UIColor cyanColor].CGColor];
+
+  int fps = 40;
+  uint32_t sleepTime = 1000000.0f/fps;
+  NSLog(@"----- 设置 图片 刷新率:%d -----",fps);
+  dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    long index = 0;
+    do {
+      usleep(sleepTime);
+      UIImage *testImage = [UIImage imageNamed:[NSString stringWithFormat:@"test%ld",(++index)%3]];
+//      [tView performSelectorOnMainThread:@selector(showImage:) withObject:testImage waitUntilDone:NO];
+      [tView performSelectorOnMainThread:@selector(showImageInLayer:) withObject:testImage waitUntilDone:NO];
+
+    } while (YES);
+
+  });
+
+
 }
 
 -(void)createVideoPlayer
 {
   if (!self.videoPlayer) {
 //    self.videoPlayer = [VideoBuffPlayer new];
-    self.videoPlayer = [VideoImagePlayer new];
+    self.videoPlayer = [[VideoImageLayerPlayer alloc] init];
     self.videoPlayer.frame = self.videoShow.bounds;
     [self.videoShow addSubview:self.videoPlayer];
   }
@@ -62,11 +125,6 @@
 }
 
 
--(void)viewDidAppear:(BOOL)animated
-{
-  [super viewDidAppear:animated];
-  self.videoPlayer.frame = self.videoShow.bounds;
-}
 
 -(BOOL)createCaptureSession
 {
@@ -82,7 +140,7 @@
 -(BOOL)endCaptureSession
 {
   BOOL result = [self.recorder endRecordSession];
-  self.imgShow.image = nil;
+  [self.videoPlayer setPause:YES];
   self.recorder = nil;
   return result;
 }
@@ -168,12 +226,32 @@
     case 111: // start video
     {
       if (!self.recorder) { [self createCaptureSession]; }
+      /**
+       @property (nonatomic) NSInteger videoType; // 视频输出类型:image
+       @property (nonatomic) CMTime videoFrameDuration; // 帧率
+       @property (nonatomic) OSType videoFormat; //
+       @property (nonatomic) AVCaptureVideoOrientation videoOrientation; // 设置输出视频默认方向
+       @property (nonatomic) AVCaptureDevicePosition videoDevicePosition; // 摄像头默认值 AVCaptureDevicePositionFront
+
+       @property (nonatomic) CGSize videoSize;   // 视频的尺寸大小
+       @property (nonatomic) NSString *sessionPreset; // 默认 AVCaptureSessionPresetMedium
+
+       */
+      WS_MediaCaptureManagerVideoProfile *profile = [[WS_MediaCaptureManagerVideoProfile alloc] init];
+      profile.videoType = 0;
+      profile.videoFrameDuration = CMTimeMake(3000, 100);
+      profile.videoDevicePosition = AVCaptureDevicePositionBack;
+      profile.videoSize = CGSizeMake(1280, 720);
+      profile.sessionPreset = AVCaptureSessionPreset1280x720;
       [self.recorder startRecordVideo:nil];
+
       AVCaptureVideoPreviewLayer *previewLayer = self.recorder.previewLayer;
       if (previewLayer) {
         previewLayer.frame = self.viewPreview.layer.bounds;
         [self.viewPreview.layer addSublayer:previewLayer];
       }
+      [self.videoPlayer setPause:NO];
+      self.videoPlayer.frame = self.videoShow.bounds;
     } break;
     case 110: // stop video
     {
@@ -181,7 +259,7 @@
         [self.viewPreview.layer.sublayers enumerateObjectsUsingBlock:^(CALayer * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             [obj removeFromSuperlayer];
         }];
-        self.imgShow.image = nil;
+      [self.videoPlayer setPause:YES];
     } break;
     case 121: // start audio
     {

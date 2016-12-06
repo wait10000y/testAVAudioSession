@@ -11,6 +11,8 @@
 
 @interface WS_VideoPlayer : UIView
 
+@property (nonatomic) BOOL pause; // 暂停标记
+
 -(void)showVideoBuff:(CMSampleBufferRef*)bufferRef;
 
 @end
@@ -24,6 +26,13 @@
 
 
 @interface VideoImagePlayer : WS_VideoPlayer
+
+-(void)showVideoBuff:(CMSampleBufferRef*)bufferRef;
+-(void)showImage:(UIImage*)theImage;
+
+@end
+
+@interface VideoImageLayerPlayer : WS_VideoPlayer
 
 -(void)showVideoBuff:(CMSampleBufferRef*)bufferRef;
 -(void)showImage:(UIImage*)theImage;
