@@ -1,0 +1,9 @@
+#EXTM3U
+#EXTINF:149,xmax-song0
+http://edu.changning.xor-live.io:8081/aqua/rest/cdmi/default/tif/courseobjects/coursevideo/Jingle Bell Rock.mp4
+#EXTINF:175,xmax-song1
+http://edu.changning.xor-live.io:8081/aqua/rest/cdmi/default/tif/courseobjects/coursevideo/SILVER BELLS  JIM REEVES.mp4
+#EXTINF:140,xmax-song2
+http://edu.changning.xor-live.io:8081/aqua/rest/cdmi/default/tif/courseobjects/coursevideo/The Lights on the Christmas Tree Song for Kids.mp4
+#EXTINF:113,xmax-song3
+http://edu.changning.xor-live.io:8081/aqua/rest/cdmi/default/tif/courseobjects/coursevideo/Where is Santa Song Lyrics for Kids.mp4

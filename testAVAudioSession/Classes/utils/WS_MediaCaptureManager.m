@@ -117,14 +117,66 @@
 
 }
 
+- (void)requestAccessForVideo{
+  __weak typeof(self) _self = self;
+  AVAuthorizationStatus status = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
+  switch (status) {
+    case AVAuthorizationStatusNotDetermined:{
+        // 许可对话没有出现，发起授权许可
+      [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^(BOOL granted) {
+        if (granted) {
+          dispatch_async(dispatch_get_main_queue(), ^{
+//            [_self.session setRunning:YES];
+          });
+        }
+      }];
+      break;
+    }
+    case AVAuthorizationStatusAuthorized:{
+        // 已经开启授权，可继续
+        //dispatch_async(dispatch_get_main_queue(), ^{
+//      [_self.session setRunning:YES];
+        //});
+      break;
+    }
+    case AVAuthorizationStatusDenied:
+    case AVAuthorizationStatusRestricted:
+        // 用户明确地拒绝授权，或者相机设备无法访问
+
+      break;
+    default:
+      break;
+  }
+}
+
+- (void)requestAccessForAudio{
+  AVAuthorizationStatus status = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeAudio];
+  switch (status) {
+    case AVAuthorizationStatusNotDetermined:{
+      [AVCaptureDevice requestAccessForMediaType:AVMediaTypeAudio completionHandler:^(BOOL granted) {
+      }];
+      break;
+    }
+    case AVAuthorizationStatusAuthorized:{
+      break;
+    }
+    case AVAuthorizationStatusDenied:
+    case AVAuthorizationStatusRestricted:
+      break;
+    default:
+      break;
+  }
+}
+
+
 -(BOOL)createRecordSession
 {
-  
+
   if(_session){
     NSLog(@"---- WS_MediaCaptureManager createRecordSession: session already create----");
     return YES;
   }
-  
+
   NSLog(@"---- WS_MediaCaptureManager createRecordSession ----");
   if (_audioQueue == NULL) {
     _audioQueue = dispatch_queue_create("WS_MediaCaptureManager_audioQueue", NULL);
@@ -927,5 +979,138 @@ static void compressionOutputCallback(void * CM_NULLABLE outputCallbackRefCon,
 //}
 
 
+
+-(void)addObserverForAudio
+{
+  @try {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(audioRouteChangeListenerCallback:) name:AVAudioSessionRouteChangeNotification object:nil];
+  } @catch (NSException *exception) {
+    NSLog(@"addObserverForAudio error:%@",exception);
+  }
+}
+-(void)removeObesrverForAudio
+{
+  @try {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:AVAudioSessionRouteChangeNotification object:nil];
+  } @catch (NSException *exception) {
+    NSLog(@"removeObesrverForAudio error:%@",exception);
+  }
+}
+
+- (void)audioRouteChangeListenerCallback:(NSNotification*)notification {
+  NSDictionary *interuptionDict = notification.userInfo;
+  NSInteger routeChangeReason = [[interuptionDict valueForKey:AVAudioSessionRouteChangeReasonKey] integerValue];
+  NSLog(@"=== 音频源改变 %ld ===",(long)routeChangeReason);
+
+  switch (routeChangeReason) {
+    case AVAudioSessionRouteChangeReasonNewDeviceAvailable:
+      NSLog(@"=== 音频源改变 AVAudioSessionRouteChangeReasonNewDeviceAvailable");
+      NSLog(@"confView 耳机插入");
+      break;
+    case AVAudioSessionRouteChangeReasonOldDeviceUnavailable:
+      NSLog(@"=== 音频源改变 AVAudioSessionRouteChangeReasonOldDeviceUnavailable");
+      NSLog(@"confView 耳机拔出");
+//      if (self.nv_btnAudioStatus.selected ==NO) {
+//        [self showWarnAlertView:@"请插入耳机,再开始语音互动!"];
+//        [self actionNewViewOperations:self.nv_btnAudioStatus];
+//      }
+      break;
+
+    case AVAudioSessionRouteChangeReasonCategoryChange:
+        // called at start - also when other audio wants to play
+      NSLog(@"=== 音频源改变 AVAudioSessionRouteChangeReasonCategoryChange");
+      break;
+  }
+}
+
+  // /* input port types */
+  //AVF_EXPORT NSString *const AVAudioSessionPortLineIn       NS_AVAILABLE_IOS(6_0); /* Line level input on a dock connector */
+  //AVF_EXPORT NSString *const AVAudioSessionPortBuiltInMic   NS_AVAILABLE_IOS(6_0); /* Built-in microphone on an iOS device */
+  //AVF_EXPORT NSString *const AVAudioSessionPortHeadsetMic   NS_AVAILABLE_IOS(6_0); /* Microphone on a wired headset.  Headset refers to an
+  //
+  ///* output port types */
+  //AVF_EXPORT NSString *const AVAudioSessionPortLineOut          NS_AVAILABLE_IOS(6_0); /* Line level output on a dock connector */
+  //AVF_EXPORT NSString *const AVAudioSessionPortHeadphones       NS_AVAILABLE_IOS(6_0); /* Headphone or headset output */
+  //AVF_EXPORT NSString *const AVAudioSessionPortBluetoothA2DP    NS_AVAILABLE_IOS(6_0); /* Output on a Bluetooth A2DP device */
+  //AVF_EXPORT NSString *const AVAudioSessionPortBuiltInReceiver  NS_AVAILABLE_IOS(6_0); /* The speaker you hold to your ear when on a phone call */
+  //AVF_EXPORT NSString *const AVAudioSessionPortBuiltInSpeaker   NS_AVAILABLE_IOS(6_0); /* Built-in speaker on an iOS device */
+  //AVF_EXPORT NSString *const AVAudioSessionPortHDMI             NS_AVAILABLE_IOS(6_0); /* Output via High-Definition Multimedia Interface */
+  //AVF_EXPORT NSString *const AVAudioSessionPortAirPlay          NS_AVAILABLE_IOS(6_0); /* Output on a remote Air Play device */
+  //AVF_EXPORT NSString *const AVAudioSessionPortBluetoothLE	  NS_AVAILABLE_IOS(7_0); /* Output on a Bluetooth Low Energy device */
+  //
+  ///* port types that refer to either input or output */
+  //AVF_EXPORT NSString *const AVAudioSessionPortBluetoothHFP NS_AVAILABLE_IOS(6_0); /* Input or output on a Bluetooth Hands-Free Profile device */
+  //AVF_EXPORT NSString *const AVAudioSessionPortUSBAudio     NS_AVAILABLE_IOS(6_0); /* Input or output on a Universal Serial Bus device */
+  //AVF_EXPORT NSString *const AVAudioSessionPortCarAudio     NS_AVAILABLE_IOS(7_0); /* Input or output via Car Audio */
+
+
+
+- (BOOL)isHeadsetPluggedIn {
+#ifdef needCheckHeadSetPlggedIn
+
+  AVAudioSession *session = [AVAudioSession sharedInstance];
+
+  NSLog(@"categoryOptions:%d ",[session categoryOptions]);
+
+  [session setCategory:AVAudioSessionCategoryPlayAndRecord
+                  mode:AVAudioSessionModeVideoChat
+               options:AVAudioSessionCategoryOptionAllowBluetooth|AVAudioSessionCategoryOptionMixWithOthers
+                 error:nil];
+
+
+  NSArray *modes = [session availableModes]; // ios9
+  NSArray *inputs = [session availableInputs];
+  NSArray *categorys = [session availableCategories];
+  NSArray *inputDataSources = [session inputDataSources];
+  NSArray *outputDataSources = [session outputDataSources];
+
+  NSLog(@"=== 音频系统 availableModes:%@ ===",modes);
+  NSLog(@"=== 音频系统 availableInputs:%@ ===",inputs);
+
+  NSLog(@"=== 音频系统 availableCategories:%@ ===",categorys);
+  NSLog(@"=== 音频系统 inputDataSources:%@ ===",inputDataSources);
+  NSLog(@"=== 音频系统 outputDataSources:%@ ===",outputDataSources);
+
+
+
+
+  NSLog(@"=== 音频系统 current category:%@ ===",[session category]);
+  NSLog(@"=== 音频系统 current mode:%@ ===",[session mode]);
+  NSLog(@"=== 音频系统 current route:%@ ===",[session currentRoute]);
+
+  NSLog(@"=== 音频系统 isInputAvailable:%d ===",[session isInputAvailable]);
+  NSLog(@"=== 音频系统 isOtherAudioPlaying:%d ===",[session isOtherAudioPlaying]);
+  NSLog(@"=== 音频系统 isInputGainSettable:%d ===",[session isInputGainSettable]);
+
+  NSLog(@"=== 音频系统 inputLatency:%f ===",[session inputLatency]);
+  NSLog(@"=== 音频系统 outputLatency:%f ===",[session outputLatency]);
+  NSLog(@"=== 音频系统 IOBufferDuration:%f ===",[session IOBufferDuration]);
+  NSLog(@"=== 音频系统 sampleRate:%f ===",[session sampleRate]);
+
+
+
+
+  if (![session isInputAvailable]) { // 是否有输入设备
+    return NO;
+  }
+
+  AVAudioSessionRouteDescription* route = [session currentRoute];
+  BOOL isOK = NO;
+  for (AVAudioSessionPortDescription* desc in [route inputs]) { // BluetoothA2DPOutput MicrophoneBuiltIn AVAudioSessionPortBluetoothA2DP
+    NSLog(@" 音频系统 route input port 设备:%@",desc);
+    if (![[desc portType] isEqualToString:AVAudioSessionPortBuiltInMic])
+      isOK = YES;
+  }
+
+  for (AVAudioSessionPortDescription* desc in [route outputs]) { // BluetoothA2DPOutput MicrophoneBuiltIn AVAudioSessionPortBluetoothA2DP
+    NSLog(@" 音频系统 route output port 设备:%@",desc);
+    if (![[desc portType] isEqualToString:AVAudioSessionPortBuiltInSpeaker]||![[desc portType] isEqualToString:AVAudioSessionPortBuiltInReceiver])
+      isOK = YES;
+  }
+  return isOK;
+#else
+  return YES;
+#endif
+}
 
 @end

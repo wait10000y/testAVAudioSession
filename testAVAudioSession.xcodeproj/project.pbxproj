@@ -24,6 +24,12 @@
 		E767AA671B4A653F002EC896 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E767AA661B4A653F002EC896 /* AVFoundation.framework */; };
 		E77BAB531DEFDE7000C14B0F /* testShowImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = E77BAB521DEFDE7000C14B0F /* testShowImageView.m */; };
 		E78EFF321DBDA99D00326F3B /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E78EFF311DBDA99D00326F3B /* VideoToolbox.framework */; };
+		E7AB98A11E07DC7C00253BBC /* TestM3u8videoPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7AB989F1E07DC7C00253BBC /* TestM3u8videoPlayerViewController.m */; };
+		E7AB98A21E07DC7C00253BBC /* TestM3u8videoPlayerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E7AB98A01E07DC7C00253BBC /* TestM3u8videoPlayerViewController.xib */; };
+		E7AB98A41E07DE8900253BBC /* live.m3u8 in Resources */ = {isa = PBXBuildFile; fileRef = E7AB98A31E07DE8900253BBC /* live.m3u8 */; };
+		E7AB98A61E07E2F000253BBC /* live.m3u in Resources */ = {isa = PBXBuildFile; fileRef = E7AB98A51E07E2F000253BBC /* live.m3u */; };
+		E7AB98A81E07EDFA00253BBC /* bipbopall.m3u8 in Resources */ = {isa = PBXBuildFile; fileRef = E7AB98A71E07EDFA00253BBC /* bipbopall.m3u8 */; };
+		E7AB98AA1E07F69D00253BBC /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E7AB98A91E07F69D00253BBC /* CoreVideo.framework */; };
 		E7B23A431D7413E4001F9EA9 /* WS_MediaCaptureManagerUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = E7B23A421D7413E4001F9EA9 /* WS_MediaCaptureManagerUtil.m */; };
 		E7C03AA41B6B612200124195 /* TPCircularBuffer+AudioBufferList.c in Sources */ = {isa = PBXBuildFile; fileRef = E7C03A8E1B6B612200124195 /* TPCircularBuffer+AudioBufferList.c */; };
 		E7C03AA51B6B612200124195 /* TPCircularBuffer.c in Sources */ = {isa = PBXBuildFile; fileRef = E7C03A901B6B612200124195 /* TPCircularBuffer.c */; };
@@ -72,6 +78,13 @@
 		E77BAB521DEFDE7000C14B0F /* testShowImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = testShowImageView.m; sourceTree = "<group>"; };
 		E78EFF311DBDA99D00326F3B /* VideoToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoToolbox.framework; path = System/Library/Frameworks/VideoToolbox.framework; sourceTree = SDKROOT; };
 		E78EFF341DBE007200326F3B /* deviceInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = deviceInfo.h; sourceTree = "<group>"; };
+		E7AB989E1E07DC7C00253BBC /* TestM3u8videoPlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestM3u8videoPlayerViewController.h; sourceTree = "<group>"; };
+		E7AB989F1E07DC7C00253BBC /* TestM3u8videoPlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestM3u8videoPlayerViewController.m; sourceTree = "<group>"; };
+		E7AB98A01E07DC7C00253BBC /* TestM3u8videoPlayerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TestM3u8videoPlayerViewController.xib; sourceTree = "<group>"; };
+		E7AB98A31E07DE8900253BBC /* live.m3u8 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = live.m3u8; sourceTree = "<group>"; };
+		E7AB98A51E07E2F000253BBC /* live.m3u */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = live.m3u; sourceTree = "<group>"; };
+		E7AB98A71E07EDFA00253BBC /* bipbopall.m3u8 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = bipbopall.m3u8; sourceTree = "<group>"; };
+		E7AB98A91E07F69D00253BBC /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 		E7B23A411D7413E4001F9EA9 /* WS_MediaCaptureManagerUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WS_MediaCaptureManagerUtil.h; sourceTree = "<group>"; };
 		E7B23A421D7413E4001F9EA9 /* WS_MediaCaptureManagerUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WS_MediaCaptureManagerUtil.m; sourceTree = "<group>"; };
 		E7C03A8E1B6B612200124195 /* TPCircularBuffer+AudioBufferList.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "TPCircularBuffer+AudioBufferList.c"; sourceTree = "<group>"; };
@@ -99,6 +112,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E7AB98AA1E07F69D00253BBC /* CoreVideo.framework in Frameworks */,
 				E78EFF321DBDA99D00326F3B /* VideoToolbox.framework in Frameworks */,
 				E767AA671B4A653F002EC896 /* AVFoundation.framework in Frameworks */,
 				E767AA2B1B4A5E92002EC896 /* CoreGraphics.framework in Frameworks */,
@@ -142,6 +156,7 @@
 		E767AA271B4A5E92002EC896 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E7AB98A91E07F69D00253BBC /* CoreVideo.framework */,
 				E78EFF311DBDA99D00326F3B /* VideoToolbox.framework */,
 				E75C75BA1B4F9B0C00C431AD /* OpenGLES.framework */,
 				E767AA661B4A653F002EC896 /* AVFoundation.framework */,
@@ -245,8 +260,14 @@
 			children = (
 				E7C03AA21B6B612200124195 /* ViewController.h */,
 				E7C03AA31B6B612200124195 /* ViewController.m */,
+				E7AB98A71E07EDFA00253BBC /* bipbopall.m3u8 */,
+				E7AB98A31E07DE8900253BBC /* live.m3u8 */,
+				E7AB98A51E07E2F000253BBC /* live.m3u */,
 				E77BAB511DEFDE7000C14B0F /* testShowImageView.h */,
 				E77BAB521DEFDE7000C14B0F /* testShowImageView.m */,
+				E7AB989E1E07DC7C00253BBC /* TestM3u8videoPlayerViewController.h */,
+				E7AB989F1E07DC7C00253BBC /* TestM3u8videoPlayerViewController.m */,
+				E7AB98A01E07DC7C00253BBC /* TestM3u8videoPlayerViewController.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -330,8 +351,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E7AB98A81E07EDFA00253BBC /* bipbopall.m3u8 in Resources */,
 				E767AA411B4A5E92002EC896 /* Images.xcassets in Resources */,
+				E7AB98A61E07E2F000253BBC /* live.m3u in Resources */,
+				E7AB98A41E07DE8900253BBC /* live.m3u8 in Resources */,
 				E767AA331B4A5E92002EC896 /* InfoPlist.strings in Resources */,
+				E7AB98A21E07DC7C00253BBC /* TestM3u8videoPlayerViewController.xib in Resources */,
 				E767AA3C1B4A5E92002EC896 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -357,6 +382,7 @@
 				E7C03AA81B6B612200124195 /* AudioRecorder.m in Sources */,
 				E7C03AAC1B6B612200124195 /* RemoteIOPlayer.m in Sources */,
 				E7C03AA51B6B612200124195 /* TPCircularBuffer.c in Sources */,
+				E7AB98A11E07DC7C00253BBC /* TestM3u8videoPlayerViewController.m in Sources */,
 				E7C03AAD1B6B612200124195 /* ViewController.m in Sources */,
 				E7C03AAA1B6B612200124195 /* AudioRecorderTwo.m in Sources */,
 				E7C03AA61B6B612200124195 /* AudioManager.m in Sources */,

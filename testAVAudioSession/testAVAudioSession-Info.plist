@@ -10,15 +10,17 @@
 	<string>com.chelady.test.${PRODUCT_NAME:rfc1034identifier}</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>${PRODUCT_NAME}需要您的同意才能读取媒体资料库</string>
-    <key>NSCameraUsageDescription</key>
-    <string>${PRODUCT_NAME}需要您同意才能使用摄像头</string>
-    
-    <key>NSContactsUsageDescription</key>
-    <string>${PRODUCT_NAME}需要您同意才能使用通讯录</string>
-    
-    <key>NSMicrophoneUsageDescription</key>
-    <string>${PRODUCT_NAME}需要您同意才能使用话筒</string>
-    
+	<key>NSCameraUsageDescription</key>
+	<string>${PRODUCT_NAME}需要您同意才能使用摄像头</string>
+	<key>NSContactsUsageDescription</key>
+	<string>${PRODUCT_NAME}需要您同意才能使用通讯录</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>${PRODUCT_NAME}需要您同意才能使用话筒</string>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowArbitraryLoads</key>
+		<true/>
+	</dict>
 	<key>CFBundleDisplayName</key>
 	<string>testAVF</string>
 	<key>CFBundleInfoDictionaryVersion</key>

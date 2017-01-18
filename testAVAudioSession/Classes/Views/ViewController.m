@@ -16,6 +16,7 @@
 #import "testShowImageView.h"
 
 
+#import <MediaPlayer/MPMoviePlayerViewController.h>
 
 
 
@@ -50,7 +51,10 @@
 {
   [super viewDidAppear:animated];
 //  [self testImageShow];
-  [self testSortString];
+//  [self testSortString];
+//  [self testPlayer];
+
+
   self.videoPlayer.frame = self.videoShow.bounds;
   [self.videoShow addSubview:self.videoPlayer];
 }
@@ -74,6 +78,51 @@ sortedArr = [sortedArr sortedArrayUsingComparator:^NSComparisonResult(NSString *
 
   NSLog(@"----arr:%@ ======",sortedArr);
 }
+
+-(void)testPrintUnsignchar
+{
+  unsigned char indexHead = 0;
+  for(int it=0;it<1500;it++){
+    NSLog(@"====== indexHead:%u ========",indexHead++);
+  }
+}
+
+-(void)testPlayer
+{
+
+  NSURL *movieUrl = [[NSBundle mainBundle] URLForResource:@"live" withExtension:@"m3u8"];
+//  movieUrl = [NSURL URLWithString:@"http://devimages.apple.com/iphone/samples/bipbop/bipbopall.m3u8"];
+
+
+  NSString *urlString = @"http://edu.changning.xor-live.io:8081/aqua/rest/cdmi/default/tif/courseobjects/coursevideo/Jingle Bell Rock.mp4";
+  urlString = [urlString stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+
+  movieUrl = [NSURL URLWithString:urlString];
+  NSLog(@"--- [urlString:%@] ---",movieUrl);
+
+  if (movieUrl) {
+
+//    AVPlayer *avPlayer = [AVPlayer playerWithURL:movieUrl];
+//    AVPlayerLayer *playerLayer = [AVPlayerLayer playerLayerWithPlayer:avPlayer];
+//    playerLayer.frame = self.view.layer.bounds;
+//    playerLayer.backgroundColor = [UIColor lightGrayColor].CGColor;
+//    [self.view.layer addSublayer:playerLayer];
+//    [avPlayer play];
+//    return;
+
+
+
+
+    MPMoviePlayerViewController *player = [[MPMoviePlayerViewController alloc] initWithContentURL:movieUrl];
+    if (player) {
+      [self presentMoviePlayerViewControllerAnimated:player];
+      return;
+    }
+  }
+
+  [[[UIAlertView alloc] initWithTitle:@"movie url nil" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:nil, nil] show];
+}
+
 
 
 -(void)testImageShow
